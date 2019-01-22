@@ -77,7 +77,6 @@ for i in range(0, len(imgPile[0]), 1):
 		if len(imgPile[2])-1 >= i:
 			finalPage.paste(imgPile[2][i],(0, 0))
 			pass
-		finalPage = finalPage.rotate(180)
 		pass		
 	finalFiles.append(finalPage)
 
