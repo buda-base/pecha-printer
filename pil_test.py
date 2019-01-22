@@ -2,7 +2,7 @@ from PIL import Image
 import os
 
 #DEFINE VARIABLES
-jpgImages = [file for file in os.listdir('./') if file.endswith(".jpg")] #Files location and file type from imput
+jpgImages = [file for file in os.listdir('./imgs/') if file.endswith(".jpg")] #Files location and file type from imput
 files = []
 totalFiles = len(jpgImages)
 finalFiles = []
@@ -21,7 +21,7 @@ if diference > 0:
 
 #RESIZE IMAGES
 for i in range(0,totalFiles,1):
-	var = Image.open(jpgImages[i])
+	var = Image.open('imgs/'+jpgImages[i])
 	newImage = var.resize([3508, 827], resample=0)
 	files.append(newImage)
 
