@@ -1,5 +1,4 @@
 from PIL import Image
-from resizeimage import resizeimage
 import os
 
 #DEFINE VARIABLES
@@ -23,7 +22,7 @@ if diference > 0:
 #RESIZE IMAGES
 for i in range(0,totalFiles,1):
 	var = Image.open(jpgImages[i])
-	newImage = resizeimage.resize_contain(var, [3508, 827])
+	newImage = var.resize([3508, 827], resample=0)
 	files.append(newImage)
 
 imgPile = [[], [], []] #Multidimensional array that represent the 3 image piles (top, medium and bottom)
