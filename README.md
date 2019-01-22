@@ -1,2 +1,2 @@
 # poti-maker
-Standalone app to create ready to print "poti" (tibetan book).
+Standalone app converting a pdf into a ready to print "poti", or print-master.
