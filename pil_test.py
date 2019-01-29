@@ -3,6 +3,7 @@ import os
 
 #DEFINE VARIABLES
 jpgImages = [file for file in os.listdir('./imgs/') if file.endswith(".jpg")] #Files location and file type from imput
+jpgImages.sort()
 files = []
 totalFiles = len(jpgImages)
 finalFiles = []
