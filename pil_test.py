@@ -17,31 +17,30 @@ aspectRatio = 3508 / 827
 #print(totalPages)
 #print(diference)
 
-if diference > 0:
-	totalPages += 2
+if diference != 0:
+	totalPages += 1
 
 #RESIZE IMAGES
 for i in range(0,totalFiles,1):
-	var = Image.open('imgs/'+jpgImages[i])
+	var = Image.open('./imgs/'+jpgImages[i])
 	newImage = var.resize([3508, 827], resample=0)
 	files.append(newImage)
 
 imgPile = [[], [], []] #Multidimensional array that represent the 3 image piles (top, medium and bottom)
-
 #DIVIDE THE IMAGES IN THE 3 PILES
-if str(float(totalFiles) % 3) =='0':
-	for i in range(0,(totalFiles//3)+1,1):
+if diference == 0:
+	for i in range(0,totalPages,1):
 		imgPile[0].append(files[i])
-	for i in range((totalFiles//3)+1,((totalFiles//3)*2)+1,1):
+	for i in range(totalPages,totalPages*2,1):
 		imgPile[1].append(files[i])
-	for i in range(((totalFiles//3)+1)*2,totalFiles,1):
+	for i in range(totalPages*2,totalFiles,1):
 		imgPile[2].append(files[i])
-if str(float(totalFiles) % 3) !='0':
-	for i in range(0,(totalFiles//3)+1,1):
+if diference != 0:
+	for i in range(0,totalPages,1):
 		imgPile[0].append(files[i])
-	for i in range((totalFiles//3)+1,((totalFiles//3)+1)*2,1):
+	for i in range(totalPages,totalPages*2,1):
 		imgPile[1].append(files[i])
-	for i in range(((totalFiles//3)+1)*2,totalFiles,1):
+	for i in range(totalPages*2,totalFiles,1):
 		imgPile[2].append(files[i])
 
 #print(imgPile[0])
@@ -49,7 +48,7 @@ if str(float(totalFiles) % 3) !='0':
 #print(imgPile[2])
 
 #REORGANIZE THE 3 PILES SO THEY ARE ALWAYS PAIR
-if len(imgPile[0]) % 2 != '0':
+if len(imgPile[0]) % 2 != 0:
 	imgPile[0].append(imgPile[1][0])
 	imgPile[1].append(imgPile[2][0])
 	imgPile[1].append(imgPile[2][1])
