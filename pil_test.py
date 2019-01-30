@@ -28,14 +28,12 @@ for i in range(0,totalFiles,1):
 	if aspectRatio >= currentAspectRatio:
 		proportionalWith = (827 / height)*width
 		resizedImage = currentImg.resize([proportionalWith, 827], resample=0)
-		newImage = Image.new("RGB", (3508, 827),(255,255,255))
-		newImage.paste(resizedImage, ((3508-width)//2, (827-height)//2))
 	else:
 		proportionalHeight = (3508 / width)*height
 		resizedImage = currentImg.resize([proportionalWith, 827], resample=0)
-		newImage = Image.new("RGB", (3508, 827),(255,255,255))
-		newImage.paste(resizedImage, ((3508-width)//2, (827-height)//2))
 		pass
+	newImage = Image.new("RGB", (3508, 827),(255,255,255))
+	newImage.paste(resizedImage, ((3508-width)//2, (827-height)//2))
 	files.append(newImage)
 
 imgPile = [[], [], []] #Multidimensional array that represent the 3 image piles (top, medium and bottom)
