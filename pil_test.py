@@ -1,15 +1,25 @@
 from PIL import Image
+from natsort import natsorted
 import os
+import string
+import random
+import shutil
 
-inputFormat = "pdf" #pdf or jpg
-inputLocation = "./inputFiles/test.pdf" #A folder of images or a pdf file
+inputFormat = "jpg" #pdf or jpg
+inputLocation = "./inputFiles/" #A folder of images or a pdf file
 outputName = "out"
 outputLocation = "./"
 ouputSize = "A4"#A4 or A3
 
 #FILE IMPORTATION
+#Creating a temporary folder
+tempFolder = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
+if os.path.isdir("./%s/" % tempFolder):
+	tempFolder = ''.join(random.choices(string.ascii_uppercase + string.digits, k=15))
+os.mkdir("./%s/" % tempFolder)
+
 if inputFormat == "pdf":
-	#Open, read and extract the images from the pdf
+	#Extract the images from a pdf
 	file = open(inputLocation, "rb")
 	pdf = file.read()
 
@@ -43,12 +53,12 @@ if inputFormat == "pdf":
 		#print("JPG %d from %d to %d" % (njpg, istart, iend))
 		jpg = pdf[istart:iend]
 
-		#Save the images in the imgs folder
+		#Save the images in the temporary folder
 		if njpg < 10:
 			num = 0
-			jpgfile = open("./imgs/jpg%d%d.jpg" % (num, njpg), "wb")
+			jpgfile = open("./%s/jpg%d%d.jpg" % (tempFolder, num, njpg), "wb")
 		else:
-			jpgfile = open("./imgs/jpg%d.jpg" % njpg, "wb")
+			jpgfile = open("./%s/jpg%d.jpg" % (tempFolder, njpg), "wb")
 			pass
 
 		jpgfile.write(jpg)
@@ -58,38 +68,36 @@ if inputFormat == "pdf":
 		i = iend
 
 elif inputFormat == "jpg":
-	#Save the images in the imgs folder
-	inputJpgs = [file for file in os.listdir(inputLocation) if file.endswith(".jpg")]
-	
-	#inputJpgs sort?
-
+	#Save the images in the temporary folder
+	inputJpgs = [file for file in natsorted(os.listdir(inputLocation)) if file.endswith(".jpg")]
+	#print(inputJpgs)
 	for i in range(len(inputJpgs)):
 		currentImg = Image.open(inputLocation+inputJpgs[i])
 		if i < 9:
 			num = 0
-			currentImg.save('./imgs/jpg%d%d.jpg' % (num, (i+1)))
+			currentImg.save('./%s/jpg%d%d.jpg' % (tempFolder, num, (i+1)))
 		else:
-			currentImg.save('./imgs/jpg%d.jpg' % (i+1))
+			currentImg.save('./%s/jpg%d.jpg' % (tempFolder, (i+1)))
 			pass
 		pass
 	pass
 
 #Defining variables
-jpgImages = [file for file in os.listdir('./imgs/') if file.endswith(".jpg")]
-jpgImages.sort()
+jpgImages = [file for file in os.listdir('./%s/' % tempFolder) if file.endswith(".jpg")]
+#jpgImages.sort()
 files = []
 totalFiles = len(jpgImages)
 finalFiles = []
 totalPages = totalFiles // 3
-diference = totalFiles % 3
+difference = totalFiles % 3
 aspectRatio = 3508 / 827
 
 #print(jpgImages)
 #print(totalFiles)
 #print(totalPages)
-#print(diference)
+#print(difference)
 
-if diference != 0:
+if difference != 0:
 	totalPages += 1
 
 #RESIZE IMAGES
@@ -99,7 +107,7 @@ elif ouputSize == "A3":
 	optimalWidth, optimalHeight, optimalHeightTotal = (4961, 1168, 3508)
 
 for i in range(0,totalFiles,1):
-	currentImg = Image.open('./imgs/'+jpgImages[i])
+	currentImg = Image.open('./%s/'% tempFolder+jpgImages[i])
 	width, height = currentImg.size
 	currentAspectRatio = width / height
 	if aspectRatio >= currentAspectRatio:
@@ -120,14 +128,14 @@ for i in range(0,totalFiles,1):
 imgPile = [[], [], []] #Multidimensional array that represent the 3 image piles (top, medium and bottom)
 
 #DIVIDE THE IMAGES IN THE 3 PILES
-if diference == 0:
+if difference == 0:
 	for i in range(0,totalPages,1):
 		imgPile[0].append(files[i])
 	for i in range(totalPages,totalPages*2,1):
 		imgPile[1].append(files[i])
 	for i in range(totalPages*2,totalFiles,1):
 		imgPile[2].append(files[i])
-if diference != 0:
+if difference != 0:
 	for i in range(0,totalPages,1):
 		imgPile[0].append(files[i])
 	for i in range(totalPages,totalPages*2,1):
@@ -173,3 +181,5 @@ for i in range(0, len(imgPile[0]), 1):
 #SAVE AS NEW PDF
 outputName = outputName+".pdf"
 finalFiles[0].save(outputLocation+outputName, save_all=True, append_images=finalFiles[1:])
+
+shutil.rmtree('./%s/' % tempFolder)
