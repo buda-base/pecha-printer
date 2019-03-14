@@ -161,7 +161,7 @@ class Pecha(object):
 
 #inputFormat, inputLocation, ouputName, outputLocation, outputSize
 
-#poti = Pecha("pdf", "./inputFiles/test.pdf", "out", "./", "A4")
-poti = Pecha("jpg", "./inputFiles/", "out", "./", "A4")
+poti = Pecha("pdf", "./inputFiles/test.pdf", "out", "./", "A4")
+#poti = Pecha("jpg", "./inputFiles/", "out", "./", "A4")
 
 poti.potiMaker()
