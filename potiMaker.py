@@ -1,7 +1,10 @@
+### Changed:
+#		potiMaker()
+#		collectFiles()
+
 from PIL import Image
 from natsort import natsorted
-from pdf2image import convert_from_path
-import os
+import os, string, subprocess, shutil
 
 class Pecha(object):
 	def __init__(self, inputFormat, inputLocation, outputName, outputLocation, outputSize):
@@ -14,8 +17,8 @@ class Pecha(object):
 		self.jpgImages = []
 		self.totalImages = 0
 		self.resizedImages = []
-		self.imagesStack = [[], [], []]
-		self.finalFiles = []
+		self.imageStacks = [[], [], []]
+		self.finalPages = []
 		self.totalPages = 0
 		self.difference = 0
 		self.aspectRatio = 3508 / 827
@@ -24,19 +27,45 @@ class Pecha(object):
 		self.optimalHeightTotal = 0
 	
 	def potiMaker(self):
+### Added
 		if self.outputSize == "A4":
 			self.optimalWidth, self.optimalHeight, self.optimalHeightTotal = (3508, 827, 2481)
 		elif self.outputSize == "A3":
 			self.optimalWidth, self.optimalHeight, self.optimalHeightTotal = (4961, 1168, 3508)
 
-		self.collectFiles()
-		self.resizeImages()
-		self.orderImages()
-		self.savePdf()
-		print("Done! ;)")
+		if self.inputFormat == "jpg":
+			self.collectFiles()
+			self.resizeImages()
+			self.orderImages()
+			self.savePdf()
+			print("Done! ;)")
+		elif self.inputFormat == "pdf":
+			os.mkdir("./tempFolder/")
+			p = subprocess.Popen("pdfimages -all %s ./tempFolder/tempImg" % self.inputLocation)			
+			self.inputLocation = "./tempfolder/"
+			while p.poll() == None:
+				print("Waiting")
+			self.collectFiles()
+			self.resizeImages()
+			self.orderImages()
+			self.savePdf()
+			print("Done! ;)")
+			pass
 
 	def collectFiles(self):
-		if self.inputFormat == "pdf":
+		inputJpgs = [file for file in natsorted(os.listdir(self.inputLocation)) if file.endswith(".jpg")]
+		for i in range(len(inputJpgs)):
+			currentImg = Image.open(self.inputLocation+inputJpgs[i])
+			self.jpgImages.append(currentImg)
+		pass
+		self.totalImages = len(self.jpgImages)
+		self.totalPages = self.totalImages // 3
+		self.difference = self.totalImages % 3
+		if self.difference != 0:
+			self.totalPages += 1
+			pass
+
+### Removed
 #			file = open(self.inputLocation, "rb")
 #			pdf = file.read()
 #
@@ -73,21 +102,6 @@ class Pecha(object):
 #
 #				njpg += 1
 #				i = iend
-			self.jpgImages = convert_from_path(self.inputLocation, 300)
-
-		elif self.inputFormat == "jpg":
-			inputJpgs = [file for file in natsorted(os.listdir(self.inputLocation)) if file.endswith(".jpg")]
-			for i in range(len(inputJpgs)):
-				currentImg = Image.open(self.inputLocation+inputJpgs[i])
-				self.jpgImages.append(currentImg)
-			pass
-
-		self.totalImages = len(self.jpgImages)
-		self.totalPages = self.totalImages // 3
-		self.difference = self.totalImages % 3
-		if self.difference != 0:
-			self.totalPages += 1
-			pass
 
 	def resizeImages(self):
 		for i in range(0,self.totalImages,1):
@@ -112,56 +126,62 @@ class Pecha(object):
 	def orderImages(self):
 		if self.difference == 0:
 			for i in range(0,self.totalPages,1):
-				self.imagesStack[0].append(self.resizedImages[i])
+				self.imageStacks[0].append(self.resizedImages[i])
 			for i in range(self.totalPages,self.totalPages*2,1):
-				self.imagesStack[1].append(self.resizedImages[i])
+				self.imageStacks[1].append(self.resizedImages[i])
 			for i in range(self.totalPages*2,self.totalImages,1):
-				self.imagesStack[2].append(self.resizedImages[i])
+				self.imageStacks[2].append(self.resizedImages[i])
 		if self.difference != 0:
 			for i in range(0,self.totalPages,1):
-				self.imagesStack[0].append(self.resizedImages[i])
+				self.imageStacks[0].append(self.resizedImages[i])
 			for i in range(self.totalPages,self.totalPages*2,1):
-				self.imagesStack[1].append(self.resizedImages[i])
+				self.imageStacks[1].append(self.resizedImages[i])
 			for i in range(self.totalPages*2,self.totalImages,1):
-				self.imagesStack[2].append(self.resizedImages[i])
+				self.imageStacks[2].append(self.resizedImages[i])
 
-		if len(self.imagesStack[0]) % 2 != 0:
-			self.imagesStack[0].append(self.imagesStack[1][0])
-			self.imagesStack[1].append(self.imagesStack[2][0])
-			self.imagesStack[1].append(self.imagesStack[2][1])
-			del self.imagesStack[1][0]
-			del self.imagesStack[2][1]
-			del self.imagesStack[2][0]
+		if len(self.imageStacks[0]) % 2 != 0:
+			self.imageStacks[0].append(self.imageStacks[1][0])
+			self.imageStacks[1].append(self.imageStacks[2][0])
+			self.imageStacks[1].append(self.imageStacks[2][1])
+			del self.imageStacks[1][0]
+			del self.imageStacks[2][1]
+			del self.imageStacks[2][0]
 
-		for i in range(0, len(self.imagesStack[0]), 1):
+		for i in range(0, len(self.imageStacks[0]), 1):
 			finalPage = Image.new('RGB', (self.optimalWidth, self.optimalHeightTotal), "white")
 			if i % 2 == 0:
-				finalPage.paste(self.imagesStack[0][i],(0, 0))
-				finalPage.paste(self.imagesStack[1][i],(0, self.optimalHeight))
-				if len(self.imagesStack[2])-1 >= i:
-					finalPage.paste(self.imagesStack[2][i],(0, self.optimalHeight*2))
+				finalPage.paste(self.imageStacks[0][i],(0, 0))
+				finalPage.paste(self.imageStacks[1][i],(0, self.optimalHeight))
+				if len(self.imageStacks[2])-1 >= i:
+					finalPage.paste(self.imageStacks[2][i],(0, self.optimalHeight*2))
 					pass
 			else:
-				finalPage.paste(self.imagesStack[0][i],(0, self.optimalHeight*2))
-				finalPage.paste(self.imagesStack[1][i],(0, self.optimalHeight))
-				if len(self.imagesStack[2])-1 >= i:
-					finalPage.paste(self.imagesStack[2][i],(0, 0))
+				finalPage.paste(self.imageStacks[0][i],(0, self.optimalHeight*2))
+				finalPage.paste(self.imageStacks[1][i],(0, self.optimalHeight))
+				if len(self.imageStacks[2])-1 >= i:
+					finalPage.paste(self.imageStacks[2][i],(0, 0))
 					pass
 				pass		
-			self.finalFiles.append(finalPage)
+			self.finalPages.append(finalPage)
 
 	def savePdf(self):
 		self.outputName = self.outputName+".pdf"
-		self.finalFiles[0].save(self.outputLocation+self.outputName, save_all=True, append_images=self.finalFiles[1:])
+		self.finalPages[0].save(self.outputLocation+self.outputName, save_all=True, append_images=self.finalPages[1:])
+		if os.path.isdir('./tempFolder/'):
+			shutil.rmtree('./tempFolder/')
 
 
 
 
 
 
-#inputFormat, inputLocation, ouputName, outputLocation, outputSize
+### From input:
+#poti = Pecha(input("Enter input format:"), input("Enter input location:"), input("Enter output name:"), input("Enter output location:"), input("Enter output size:"))
 
+### From PDF
 poti = Pecha("pdf", "./inputFiles/test.pdf", "out", "./", "A4")
+
+### From JPG's folder
 #poti = Pecha("jpg", "./inputFiles/", "out", "./", "A4")
 
 poti.potiMaker()
