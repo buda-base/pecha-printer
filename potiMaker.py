@@ -53,11 +53,12 @@ class Pecha(object):
 			pass
 
 	def collectFiles(self):
-		inputJpgs = [file for file in natsorted(os.listdir(self.inputLocation)) if file.endswith(".jpg")]
+		inputJpgs = [file for file in natsorted(os.listdir(self.inputLocation)) if file.endswith(".jpg") or file.endswith(".png") or file.endswith(".tiff") ]
 		for i in range(len(inputJpgs)):
 			currentImg = Image.open(self.inputLocation+inputJpgs[i])
 			self.jpgImages.append(currentImg)
 		pass
+
 		self.totalImages = len(self.jpgImages)
 		self.totalPages = self.totalImages // 3
 		self.difference = self.totalImages % 3
@@ -176,12 +177,17 @@ class Pecha(object):
 
 
 ### From input:
+	#input format: pdf / jpg
+	#input location: pdf file / image folder
+	#output name
+	#output location
+	#output size: A4 / A3
 #poti = Pecha(input("Enter input format:"), input("Enter input location:"), input("Enter output name:"), input("Enter output location:"), input("Enter output size:"))
 
 ### From PDF
 poti = Pecha("pdf", "./inputFiles/test.pdf", "out", "./", "A4")
 
-### From JPG's folder
-#poti = Pecha("jpg", "./inputFiles/", "out", "./", "A4")
+### From image folder
+#poti = Pecha("img", "./inputFiles/", "out", "./", "A4")
 
 poti.potiMaker()
