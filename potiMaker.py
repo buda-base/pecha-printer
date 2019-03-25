@@ -1,10 +1,9 @@
 ### Changed:
 #		potiMaker()
-#		collectFiles()
 
 from PIL import Image
 from natsort import natsorted
-import os, string, subprocess, shutil
+import os, string, subprocess, shutil, argparse
 
 class Pecha(object):
 	def __init__(self, inputFormat, inputLocation, outputName, outputLocation, outputSize):
@@ -26,14 +25,13 @@ class Pecha(object):
 		self.optimalHeight = 0
 		self.optimalHeightTotal = 0
 	
-	def potiMaker(self):
-### Added
+	def Main(self):
 		if self.outputSize == "A4":
 			self.optimalWidth, self.optimalHeight, self.optimalHeightTotal = (3508, 827, 2481)
 		elif self.outputSize == "A3":
 			self.optimalWidth, self.optimalHeight, self.optimalHeightTotal = (4961, 1168, 3508)
 
-		if self.inputFormat == "jpg":
+		if self.inputFormat == "img":
 			self.collectFiles()
 			self.resizeImages()
 			self.orderImages()
@@ -44,7 +42,10 @@ class Pecha(object):
 			p = subprocess.Popen("pdfimages -all %s ./tempFolder/tempImg" % self.inputLocation)			
 			self.inputLocation = "./tempfolder/"
 			while p.poll() == None:
-				print("Waiting")
+#				print("Waiting")
+				if p.poll() != None:
+					break
+
 			self.collectFiles()
 			self.resizeImages()
 			self.orderImages()
@@ -65,44 +66,6 @@ class Pecha(object):
 		if self.difference != 0:
 			self.totalPages += 1
 			pass
-
-### Removed
-#			file = open(self.inputLocation, "rb")
-#			pdf = file.read()
-#
-#			startmark = b"\xff\xd8"
-#			startfix = 0
-#			endmark = b"\xff\xd9"
-#			endfix = 2
-#			i = 0
-#
-#			njpg = 1
-#			while True:
-#				istream = pdf.find(b"stream", i)
-#				if istream < 0:
-#					break
-#
-#				istart = pdf.find(startmark, istream, istream+20)
-#				if istart < 0:
-#					i = istream+20
-#					continue
-#
-#				iend = pdf.find(b"endstream", istart)
-#				if iend < 0:
-#					raise Exception("Didn't find end of stream!")
-#
-#				iend = pdf.find(endmark, iend-20)
-#				if iend < 0:
-#					raise Exception("Didn't find end of JPG!")
-#
-#				istart += startfix
-#				iend += endfix
-#				jpg = pdf[istart:iend]
-#
-#				self.jpgImages.append(Image.frombytes('RGB', (self.optimalWidth,self.optimalHeight), jpg))
-#
-#				njpg += 1
-#				i = iend
 
 	def resizeImages(self):
 		for i in range(0,self.totalImages,1):
@@ -171,23 +134,37 @@ class Pecha(object):
 		if os.path.isdir('./tempFolder/'):
 			shutil.rmtree('./tempFolder/')
 
+### Added:
 
+def potiMaker():
+	parser = argparse.ArgumentParser()
+	parser.add_argument("input_format", help="Input format: [pdf] or [img] (img includes: jpg, png and tiff)", type=str)
+	parser.add_argument("input_location", help="Input location: pdf file location or image folder location", type=str)
+	parser.add_argument("output_name", help="Output name", type=str)
+	parser.add_argument("output_location", help="Output location", type=str)
+	parser.add_argument("output_size", help="Output size: [A4] or [A3]", type=str)
+	args = parser.parse_args()
 
+	if not (args.input_format or args.input_location or args.output_name or args.output_location or args.output_size):
+		parser.error('No arguments provided, -h for help')
 
+	poti = Pecha(args.input_format, args.input_location, args.output_name, args.output_location, args.output_size)
 
+	### From PDF
+	#poti = Pecha("pdf", "./inputFiles/test.pdf", "out", "./", "A4")
 
-### From input:
-	#input format: pdf / jpg
-	#input location: pdf file / image folder
-	#output name
-	#output location
-	#output size: A4 / A3
-#poti = Pecha(input("Enter input format:"), input("Enter input location:"), input("Enter output name:"), input("Enter output location:"), input("Enter output size:"))
+	### From image folder
+	#poti = Pecha("img", "./format test/", "out", "./", "A4")
 
-### From PDF
-poti = Pecha("pdf", "./inputFiles/test.pdf", "out", "./", "A4")
+	### From input:
+		#input_format: pdf / img
+		#input_location: pdf file / image folder
+		#output_name
+		#output_location
+		#output_size: A4 / A3
+	#poti = Pecha(input("Enter input format:"), input("Enter input location:"), input("Enter output name:"), input("Enter output location:"), input("Enter output size:"))
 
-### From image folder
-#poti = Pecha("img", "./inputFiles/", "out", "./", "A4")
+	poti.Main()
 
-poti.potiMaker()
+if __name__ == '__main__':
+	potiMaker()
