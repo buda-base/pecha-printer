@@ -1,18 +1,20 @@
 ### Changed:
 #		potiMaker()
-
+import sys, os, string, subprocess, shutil, argparse
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
+from PyQt5.uic import loadUi
 from PIL import Image
 from natsort import natsorted
-import os, string, subprocess, shutil, argparse
 
 class Pecha(object):
-	def __init__(self, inputFormat, inputLocation, outputName, outputLocation, outputSize):
+	def __init__(self):
 		super(Pecha, self).__init__()
-		self.inputFormat = inputFormat
-		self.inputLocation = inputLocation
-		self.outputName = outputName
-		self.outputLocation = outputLocation
-		self.outputSize = outputSize
+		self.inputFormat = ""
+		self.inputLocation = ""
+		self.outputName = ""
+		self.outputLocation = ""
+		self.outputSize = ""
 		self.jpgImages = []
 		self.totalImages = 0
 		self.resizedImages = []
@@ -26,18 +28,20 @@ class Pecha(object):
 		self.optimalHeightTotal = 0
 	
 	def Main(self):
-		if self.outputSize == "A4":
-			self.optimalWidth, self.optimalHeight, self.optimalHeightTotal = (3508, 827, 2481)
-		elif self.outputSize == "A3":
-			self.optimalWidth, self.optimalHeight, self.optimalHeightTotal = (4961, 1168, 3508)
-
-		if self.inputFormat == "img":
 			self.collectFiles()
 			self.resizeImages()
 			self.orderImages()
 			self.savePdf()
 			print("Done! ;)")
-		elif self.inputFormat == "pdf":
+			return 1
+
+	def collectFiles(self):
+		if self.inputFormat == 'img':
+			for i in range(len(self.inputLocation)):
+				currentImg = Image.open(self.inputLocation[i])
+				self.jpgImages.append(currentImg)
+
+		elif self.inputFormat == 'pdf':
 			os.mkdir("./tempFolder/")
 			p = subprocess.Popen("pdfimages -all %s ./tempFolder/tempImg" % self.inputLocation)			
 			self.inputLocation = "./tempfolder/"
@@ -46,19 +50,11 @@ class Pecha(object):
 				if p.poll() != None:
 					break
 
-			self.collectFiles()
-			self.resizeImages()
-			self.orderImages()
-			self.savePdf()
-			print("Done! ;)")
+			inputJpgs = [file for file in natsorted(os.listdir(self.inputLocation)) if file.endswith(".jpg") or file.endswith(".png") or file.endswith(".tiff") ]
+			for i in range(len(inputJpgs)):
+				currentImg = Image.open(self.inputLocation+inputJpgs[i])
+				self.jpgImages.append(currentImg)
 			pass
-
-	def collectFiles(self):
-		inputJpgs = [file for file in natsorted(os.listdir(self.inputLocation)) if file.endswith(".jpg") or file.endswith(".png") or file.endswith(".tiff") ]
-		for i in range(len(inputJpgs)):
-			currentImg = Image.open(self.inputLocation+inputJpgs[i])
-			self.jpgImages.append(currentImg)
-		pass
 
 		self.totalImages = len(self.jpgImages)
 		self.totalPages = self.totalImages // 3
@@ -68,6 +64,11 @@ class Pecha(object):
 			pass
 
 	def resizeImages(self):
+		if self.outputSize == "A4":
+			self.optimalWidth, self.optimalHeight, self.optimalHeightTotal = (3508, 827, 2481)
+		elif self.outputSize == "A3":
+			self.optimalWidth, self.optimalHeight, self.optimalHeightTotal = (4961, 1168, 3508)
+
 		for i in range(0,self.totalImages,1):
 			currentImg = self.jpgImages[i]
 			width, height = currentImg.size
@@ -134,37 +135,101 @@ class Pecha(object):
 		if os.path.isdir('./tempFolder/'):
 			shutil.rmtree('./tempFolder/')
 
-### Added:
+### Removed:
 
-def potiMaker():
-	parser = argparse.ArgumentParser()
-	parser.add_argument("input_format", help="Input format: [pdf] or [img] (img includes: jpg, png and tiff)", type=str)
-	parser.add_argument("input_location", help="Input location: pdf file location or image folder location", type=str)
-	parser.add_argument("output_name", help="Output name", type=str)
-	parser.add_argument("output_location", help="Output location", type=str)
-	parser.add_argument("output_size", help="Output size: [A4] or [A3]", type=str)
-	args = parser.parse_args()
+#def potiMaker():
+#	parser = argparse.ArgumentParser()
+#	parser.add_argument("input_format", help="Input format: [pdf] or [img] (img includes: jpg, png and tiff)", type=str)
+#	parser.add_argument("input_location", help="Input location: pdf file location or image folder location", type=str)
+#	parser.add_argument("output_name", help="Output name", type=str)
+#	parser.add_argument("output_location", help="Output location", type=str)
+#	parser.add_argument("output_size", help="Output size: [A4] or [A3]", type=str)
+#	args = parser.parse_args()
+#
+#	if not (args.input_format or args.input_location or args.output_name or args.output_location or args.output_size):
+#		parser.error('No arguments provided, -h for help')
+#
+#	poti = Pecha(args.input_format, args.input_location, args.output_name, args.output_location, args.output_size)
+#
+#	poti.Main()
 
-	if not (args.input_format or args.input_location or args.output_name or args.output_location or args.output_size):
-		parser.error('No arguments provided, -h for help')
 
-	poti = Pecha(args.input_format, args.input_location, args.output_name, args.output_location, args.output_size)
+### Added
+class Ui(QDialog):
+	def __init__(self):
+		super(Ui, self).__init__()
+		loadUi('./window.ui', self)
+		self.setWindowTitle("Poti Maker");
+		self.stackedWidget.setCurrentIndex(0)
+		self.stackedWidget_2.setCurrentIndex(0)
+		self.pushButton.clicked.connect(self.button1)
+		self.pushButton_2.clicked.connect(self.button2)
+		self.pushButton_3.clicked.connect(self.button3and5)
+		self.pushButton_4.clicked.connect(self.button4)
+		self.pushButton_5.clicked.connect(self.button3and5)
+		self.pushButton_6.clicked.connect(self.close)
+		self.poti = Pecha()
 
-	### From PDF
-	#poti = Pecha("pdf", "./inputFiles/test.pdf", "out", "./", "A4")
+	def button1(self):
+		options = QFileDialog.Options()
+		fileLocation, _= QFileDialog.getOpenFileNames(self, "Choose files", "", "All Files (*);;Python Files (*.py", options=options)
+	#	print(fileLocation)
 
-	### From image folder
-	#poti = Pecha("img", "./format test/", "out", "./", "A4")
+		if fileLocation:
+			self.pushButton_2.setEnabled(True)
+			if len(fileLocation) > 1:
+				self.poti.inputLocation = fileLocation
+				multiplePdfs = False
+				for i in range(0, len(fileLocation), 1):
+					fileLocationPartition = fileLocation[i].rpartition('/')
+					if fileLocationPartition[2].rpartition('.')[2] == 'pdf':
+						self.label_8.setText("Please select only one pdf or a group of images")
+						self.pushButton_2.setEnabled(False)
+						multiplePdfs = True
+						break
+				if multiplePdfs == False:
+					firstFileLocationPartition = fileLocation[0].rpartition('/')[2]
+					self.label_8.setText(fileLocation[0].rpartition('/')[2] + ", " + fileLocation[1].rpartition('/')[2] + ", ...")
+					self.textEdit_2.setText(firstFileLocationPartition.rpartition('.')[0] + "_2")
+					self.poti.inputFormat = "img"
+					self.poti.inputLocation = fileLocation
 
-	### From input:
-		#input_format: pdf / img
-		#input_location: pdf file / image folder
-		#output_name
-		#output_location
-		#output_size: A4 / A3
-	#poti = Pecha(input("Enter input format:"), input("Enter input location:"), input("Enter output name:"), input("Enter output location:"), input("Enter output size:"))
+			elif len(fileLocation) == 1:
+				fileLocationPartition = fileLocation[0].rpartition('/')
+				self.label_8.setText(fileLocationPartition[2])
+				self.textEdit_2.setText(fileLocationPartition[2].rpartition('.')[0] + "_2")
+				if fileLocationPartition[2].rpartition('.')[2] == 'pdf':
+					self.poti.inputFormat = "pdf"
+					self.poti.inputLocation = fileLocation[0]
+				else:
+					self.poti.inputFormat = "img"
+					self.poti.inputLocation = fileLocation
 
-	poti.Main()
+			self.poti.outputLocation = fileLocationPartition[0]+"/"
+
+			self.stackedWidget_2.setCurrentIndex(1)
+
+	def button2(self):
+		self.stackedWidget.setCurrentIndex(1)
+
+	def button3and5(self):
+		self.stackedWidget.setCurrentIndex(0)
+		self.stackedWidget_2.setCurrentIndex(0)
+
+	def button4(self):
+		self.poti.outputName = self.textEdit_2.toPlainText()
+		if self.comboBox.currentIndex() == 0:
+			self.poti.outputSize = "A4"
+		elif self.comboBox.currentIndex() == 1:
+			self.poti.outputSize = "A3"
+		self.stackedWidget.setCurrentIndex(2)
+		self.stackedWidget_3.setCurrentIndex(0)
+		process = self.poti.Main()
+		if process == 1:
+			self.stackedWidget_3.setCurrentIndex(1)
 
 if __name__ == '__main__':
-	potiMaker()
+	app = QApplication(sys.argv)
+	window = Ui()
+	window.show()
+	sys.exit(app.exec_())
