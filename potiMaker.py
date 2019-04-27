@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
 from PyQt5.uic import loadUi
 from PIL import Image
 from natsort import natsorted
+import shutil
 
 class Pecha(object):
 	def __init__(self):
@@ -42,9 +43,15 @@ class Pecha(object):
 				self.jpgImages.append(currentImg)
 
 		elif self.inputFormat == 'pdf':
-			os.mkdir("./tempFolder/")
-			p = subprocess.Popen("pdfimages -all %s ./tempFolder/tempImg" % self.inputLocation)			
-			self.inputLocation = "./tempfolder/"
+			path = "./tempFolder/"
+			if not os.path.exists(path):
+				os.makedirs(path)
+			else:
+				shutil.rmtree(path)           #removes all the subdirectories!
+				os.makedirs(path)
+#	os.path.join adds the trailing slash that's silently deleted by abspath
+			p = subprocess.Popen(["pdfimages" ,"-j", self.inputLocation, os.path.join(os.path.abspath(path), '')])			
+			self.inputLocation = "./tempFolder/"
 			while p.poll() == None:
 #				print("Waiting")
 				if p.poll() != None:
@@ -74,8 +81,8 @@ class Pecha(object):
 			width, height = currentImg.size
 			currentAspectRatio = width / height
 			if self.aspectRatio >= currentAspectRatio:
-				proportionalWith = (self.optimalHeight / height)*width
-				resizedImage = currentImg.resize([int(proportionalWith), self.optimalHeight], resample=0)
+				proportionalWidth = (self.optimalHeight / height)*width
+				resizedImage = currentImg.resize([int(proportionalWidth), self.optimalHeight], resample=0)
 				resizedWidth, resizedHeight = resizedImage.size
 				newImage = Image.new("RGB", (self.optimalWidth, self.optimalHeight),(255,255,255))
 				newImage.paste(resizedImage, ((self.optimalWidth-resizedWidth)//2, (self.optimalHeight-resizedHeight)//2))
