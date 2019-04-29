@@ -50,7 +50,7 @@ class Pecha(object):
 				shutil.rmtree(path)           #removes all the subdirectories!
 				os.makedirs(path)
 #	os.path.join adds the trailing slash that's silently deleted by abspath
-			p = subprocess.Popen(["pdfimages" ,"-j", self.inputLocation, os.path.join(os.path.abspath(path), '')])			
+			p = subprocess.Popen(["%s/dep/pdfimages" % os.getcwd(),"-j", self.inputLocation, os.path.join(os.path.abspath(path), '')])			
 			self.inputLocation = "./tempFolder/"
 			while p.poll() == None:
 #				print("Waiting")
