@@ -32,6 +32,7 @@ class Pecha(object):
         self.optimalHeightTotal = 0
         self.imgExt = ('tif', 'tiff', 'gif', 'jpeg', 'jpg', 'jif', 'jfif',
                        'jp2', 'jpx', 'j2k', 'j2c', 'fpx', 'pcd', 'png', 'pbm')
+        self.pdfimagesLocation = "%s/dep/mac/bin64/pdfimages" % os.getcwd()
 
     def Main(self):
         self.collectFiles()
@@ -55,7 +56,7 @@ class Pecha(object):
                 shutil.rmtree(path)  # removes all the subdirectories!
                 os.makedirs(path)
 #	os.path.join adds the trailing slash that's silently deleted by abspath
-            p = subprocess.Popen(["%s/dep/pdfimages" % os.getcwd(), "-j",
+            p = subprocess.Popen([self.pdfimagesLocation, "-j",
                                   self.inputLocation, os.path.join(os.path.abspath(path), '')])
             self.inputLocation = "./tempFolder/"
             while p.poll() == None:
