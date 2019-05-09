@@ -33,7 +33,7 @@ class Pecha(object):
         self.optimalWidth = 0
         self.optimalHeight = 0
         self.optimalHeightTotal = 0
-        self.imgExt = ('tif', 'tiff', 'gif', 'jpeg', 'jpg', 'jif', 'jfif',
+        self.imgExt = ('tif', 'tiff', 'gif', 'jpeg', 'jpg', 'jif', 'jfif', 'pgm',
                        'jp2', 'jpx', 'j2k', 'j2c', 'fpx', 'pcd', 'png', 'pbm')
         self.pdfimagesLocation = '{cwd}/dep/{platform}/bin{bits}/pdfimages{ext}'\
                                   .format(cwd=os.getcwd(),
@@ -135,30 +135,32 @@ class Pecha(object):
                 self.imageStacks[2].append(self.resizedImages[i])
 
         if len(self.imageStacks[0]) % 2 != 0:
-            self.imageStacks[0].append(self.imageStacks[1][0])
-            self.imageStacks[1].append(self.imageStacks[2][0])
-            self.imageStacks[1].append(self.imageStacks[2][1])
-            del self.imageStacks[1][0]
-            del self.imageStacks[2][1]
-            del self.imageStacks[2][0]
+            if self.imageStacks[1] and self.imageStacks[1][0]:
+                self.imageStacks[0].append(self.imageStacks[1][0])
+                del self.imageStacks[1][0]
+            if self.imageStacks[2]:
+                if self.imageStacks[2][0]:
+                    self.imageStacks[1].append(self.imageStacks[2][0])
+                    del self.imageStacks[2][1]
+                if self.imageStacks[2][1]:
+                    self.imageStacks[1].append(self.imageStacks[2][1])
+                    del self.imageStacks[2][0]
 
         for i in range(0, len(self.imageStacks[0]), 1):
             finalPage = Image.new(
                 'RGB', (self.optimalWidth, self.optimalHeightTotal), "white")
             if i % 2 == 0:
                 finalPage.paste(self.imageStacks[0][i], (0, 0))
-                finalPage.paste(
-                    self.imageStacks[1][i], (0, self.optimalHeight))
-                if len(self.imageStacks[2])-1 >= i:
-                    finalPage.paste(
-                        self.imageStacks[2][i], (0, self.optimalHeight*2))
+                if self.imageStacks[1] and self.imageStacks[1][i]:
+                    finalPage.paste(self.imageStacks[1][i], (0, self.optimalHeight))
+                if self.imageStacks[2] and self.imageStacks[2][i] and len(self.imageStacks[2])-1 >= i:
+                    finalPage.paste(self.imageStacks[2][i], (0, self.optimalHeight*2))
                     pass
             else:
-                finalPage.paste(
-                    self.imageStacks[0][i], (0, self.optimalHeight*2))
-                finalPage.paste(
-                    self.imageStacks[1][i], (0, self.optimalHeight))
-                if len(self.imageStacks[2])-1 >= i:
+                finalPage.paste(self.imageStacks[0][i], (0, self.optimalHeight*2))
+                if self.imageStacks[1] and self.imageStacks[1][i]:
+                    finalPage.paste(self.imageStacks[1][i], (0, self.optimalHeight))
+                if self.imageStacks[2] and self.imageStacks[2][i] and len(self.imageStacks[2])-1 >= i:
                     finalPage.paste(self.imageStacks[2][i], (0, 0))
                     pass
                 pass
