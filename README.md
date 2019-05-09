@@ -4,7 +4,7 @@ Standalone app converting a pdf into a ready to print "poti", traditional tibeta
 ### To do:
 - localization
 - custom paper size
-- binarise all images for unity
+- option to binarise all images for unity
 - combine multiple pdfs
 - bundle for distribution
 
