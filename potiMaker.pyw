@@ -35,9 +35,7 @@ class Pecha(object):
         self.optimalHeightTotal = 0
         self.imgExt = ('tif', 'tiff', 'gif', 'jpeg', 'jpg', 'jif', 'jfif',
                        'jp2', 'jpx', 'j2k', 'j2c', 'fpx', 'pcd', 'png', 'pbm')
-        system = 'Mac' if platform.system() == "Darwin" else platform.system()
-        self.pdfimagesLocation = "%s/dep/%s/bin%s/pdfimages" % (os.getcwd(), system, 8 * struct.calcsize("P"))
-        print(self.pdfimagesLocation)
+        self.pdfimagesLocation = f'{os.getcwd()}/dep/{"Mac" if platform.system() == "Darwin" else platform.system()}/bin{8 * struct.calcsize("P")}/pdfimages{".exe" if platform.system() == "Windows" else ""}'
 
     def Main(self):
         self.collectFiles()
@@ -170,6 +168,8 @@ class Pecha(object):
             shutil.rmtree('./tempFolder/')
 
 # Added
+
+
 class Ui(QDialog):
     def __init__(self):
         super(Ui, self).__init__()
