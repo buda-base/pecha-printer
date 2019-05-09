@@ -36,10 +36,10 @@ class Pecha(object):
         self.imgExt = ('tif', 'tiff', 'gif', 'jpeg', 'jpg', 'jif', 'jfif',
                        'jp2', 'jpx', 'j2k', 'j2c', 'fpx', 'pcd', 'png', 'pbm')
         self.pdfimagesLocation = '{cwd}/dep/{platform}/bin{bits}/pdfimages{ext}'\
-            .format(cwd=os.getcwd(),
-                    platform=("Mac" if platform.system() == "Darwin" else platform.system()),
-                    bits=8 * struct.calcsize("P"),
-                    ext=(".exe" if platform.system() == "Windows" else ""))
+                                  .format(cwd=os.getcwd(),
+                                          platform=("Mac" if platform.system() == "Darwin" else platform.system()),
+                                          bits=8 * struct.calcsize("P"),
+                                          ext=(".exe" if platform.system() == "Windows" else ""))
 
     def Main(self):
         self.collectFiles()
