@@ -1,5 +1,7 @@
 import sys
 import os
+import struct
+import platform
 import string
 import subprocess
 import shutil
@@ -10,6 +12,7 @@ from PyQt5.uic import loadUi
 from PIL import Image
 from natsort import natsorted
 import shutil
+
 
 class Pecha(object):
     def __init__(self):
@@ -32,7 +35,9 @@ class Pecha(object):
         self.optimalHeightTotal = 0
         self.imgExt = ('tif', 'tiff', 'gif', 'jpeg', 'jpg', 'jif', 'jfif',
                        'jp2', 'jpx', 'j2k', 'j2c', 'fpx', 'pcd', 'png', 'pbm')
-        self.pdfimagesLocation = "%s/dep/mac/bin64/pdfimages" % os.getcwd()
+        system = 'Mac' if platform.system() == "Darwin" else platform.system()
+        self.pdfimagesLocation = "%s/dep/%s/bin%s/pdfimages" % (os.getcwd(), system, 8 * struct.calcsize("P"))
+        print(self.pdfimagesLocation)
 
     def Main(self):
         self.collectFiles()
