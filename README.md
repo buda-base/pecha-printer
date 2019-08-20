@@ -6,7 +6,8 @@ Double-click or run `install.py`.
 
 ## Using PotiMaker
 Double-click or run `poti_maker.pyw`.
-
+ 
+## Roadmap
 ### To do:
 - localization
 - custom paper size
@@ -16,3 +17,7 @@ Double-click or run `poti_maker.pyw`.
 
 ### Wish list:
 - split pdfs on outline and name files after section names
+
+## License
+
+The code is Copyright 2019 Buddhist Digital Resource Center, and is provided under [Apache License 2.0](LICENSE).
