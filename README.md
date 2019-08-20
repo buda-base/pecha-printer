@@ -1,6 +1,12 @@
 # PotiMaker
 Standalone app converting a pdf into a ready to print "poti", traditional tibetan volumes.
 
+## Install
+Double-click or run `install.py`.
+
+## Using PotiMaker
+Double-click or run `poti_maker.pyw`.
+
 ### To do:
 - localization
 - custom paper size

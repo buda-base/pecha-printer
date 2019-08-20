@@ -2,11 +2,7 @@ import sys
 import os
 import struct
 import platform
-import string
 import subprocess
-import shutil
-import argparse
-from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
 from PyQt5.uic import loadUi
 from PIL import Image
