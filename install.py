@@ -17,18 +17,16 @@ def pip_install(package_name, message):
     @rtype bool
     """
     ok = False
+
     print(
-        "{0}\n\nShall '{1}' be installed using pip? (Y/n)".format(
+        "{0}\n\n'{1}' will be installed.".format(
             message, package_name
-        ),
-        end=" ",
-    )
-    answer = input()
-    if answer in ("", "Y", "y"):
-        exit_code = subprocess.call(
-            [sys.executable, "-m", "pip", "install", package_name]
         )
-        ok = exit_code == 0
+    )
+    exit_code = subprocess.call(
+        [sys.executable, "-m", "pip", "install", package_name]
+    )
+    ok = exit_code == 0
 
     return ok
 
