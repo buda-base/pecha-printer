@@ -184,7 +184,7 @@ def do_dependency_checks():
     # not checking natsort version
 
     print()
-    print("All dependencies ok.")
+    print("All set!")
 
 
 if __name__ == "__main__":
