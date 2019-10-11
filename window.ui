@@ -52,8 +52,11 @@
      <height>601</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/newPrefix/window.png);</string>
+   </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_2">
@@ -66,7 +69,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_3">
       <widget class="QWidget" name="verticalLayoutWidget">
@@ -114,11 +117,12 @@
             </property>
             <property name="font">
              <font>
-              <family>Microsoft Sans Serif</family>
+              <family>Microsoft Himalaya</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>Please select the file/s you would like to work with:</string>
+             <string>པར་འདེབས་མ་ཕྱི་བསྒྱུར་དགོས་པའི་པར་དང་། ཡང་ན་ PDF འདེམས།</string>
             </property>
            </widget>
           </item>
@@ -136,6 +140,19 @@
            </spacer>
           </item>
          </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -168,9 +185,10 @@
             </property>
             <property name="font">
              <font>
-              <family>Microsoft PhagsPa</family>
-              <weight>75</weight>
-              <bold>true</bold>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
              </font>
             </property>
             <property name="mouseTracking">
@@ -180,7 +198,7 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Choose files</string>
+             <string>ཡིག་ཆ་འདེམས།</string>
             </property>
            </widget>
           </item>
@@ -207,12 +225,25 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>160</y>
+         <y>30</y>
          <width>801</width>
-         <height>131</height>
+         <height>261</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <spacer name="verticalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
@@ -230,6 +261,12 @@
           </item>
           <item>
            <widget class="QLabel" name="label_8">
+            <property name="font">
+             <font>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <property name="text">
              <string/>
             </property>
@@ -294,13 +331,14 @@
             </property>
             <property name="font">
              <font>
-              <family>Microsoft PhagsPa</family>
-              <weight>75</weight>
-              <bold>true</bold>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
              </font>
             </property>
             <property name="text">
-             <string>Cancel</string>
+             <string>དོར།</string>
             </property>
            </widget>
           </item>
@@ -320,13 +358,14 @@
             </property>
             <property name="font">
              <font>
-              <family>Microsoft PhagsPa</family>
-              <weight>75</weight>
-              <bold>true</bold>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
              </font>
             </property>
             <property name="text">
-             <string>Continue</string>
+             <string>རྗེས་མ།</string>
             </property>
            </widget>
           </item>
@@ -365,11 +404,12 @@
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
-          <family>Microsoft Sans Serif</family>
+          <family>Microsoft Himalaya</family>
+          <pointsize>14</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>Enter a name for your file:</string>
+         <string>ཡིག་ཆ་གསར་པའི་མིང་འབྲི།</string>
         </property>
        </widget>
       </item>
@@ -390,6 +430,12 @@
               <width>16777215</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+             </font>
             </property>
            </widget>
           </item>
@@ -464,11 +510,12 @@
             </property>
             <property name="font">
              <font>
-              <family>Microsoft Sans Serif</family>
+              <family>Microsoft Himalaya</family>
+              <pointsize>12</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>*Required</string>
+             <string>*དགོས་ངེས་ཅན།</string>
             </property>
            </widget>
           </item>
@@ -491,11 +538,12 @@
          <widget class="QLabel" name="label_4">
           <property name="font">
            <font>
-            <family>Microsoft Sans Serif</family>
+            <family>Microsoft Himalaya</family>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>Choose the size for the pages:</string>
+           <string>ཤོག་ངོའི་ཚད་གཞི་འདེམས།</string>
           </property>
          </widget>
         </item>
@@ -515,14 +563,20 @@
               <height>50</height>
              </size>
             </property>
+            <property name="font">
+             <font>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
             <item>
              <property name="text">
-              <string>A4</string>
+              <string>A4 ཤོག་ཚད།</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>A3</string>
+              <string>A3 ཤོག་ཚད།</string>
              </property>
             </item>
            </widget>
@@ -588,13 +642,14 @@
           </property>
           <property name="font">
            <font>
-            <family>Microsoft PhagsPa</family>
-            <weight>75</weight>
-            <bold>true</bold>
+            <family>Microsoft Himalaya</family>
+            <pointsize>14</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
            </font>
           </property>
           <property name="text">
-           <string>Cancel</string>
+           <string>དོར།</string>
           </property>
          </widget>
         </item>
@@ -614,13 +669,14 @@
           </property>
           <property name="font">
            <font>
-            <family>Microsoft PhagsPa</family>
-            <weight>75</weight>
-            <bold>true</bold>
+            <family>Microsoft Himalaya</family>
+            <pointsize>14</pointsize>
+            <weight>50</weight>
+            <bold>false</bold>
            </font>
           </property>
           <property name="text">
-           <string>Save</string>
+           <string>འགྲིག</string>
           </property>
          </widget>
         </item>
@@ -695,11 +751,12 @@
            <widget class="QLabel" name="label_5">
             <property name="font">
              <font>
-              <family>Microsoft Sans Serif</family>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>Loading...</string>
+             <string>བསྒྲིག་མུས།</string>
             </property>
            </widget>
           </item>
@@ -751,7 +808,7 @@
            <widget class="QLabel" name="label_6">
             <property name="font">
              <font>
-              <family>Microsoft PhagsPa</family>
+              <family>Microsoft Himalaya</family>
               <pointsize>22</pointsize>
               <weight>75</weight>
               <bold>true</bold>
@@ -822,7 +879,7 @@
            <widget class="QLabel" name="label_7">
             <property name="font">
              <font>
-              <family>Microsoft PhagsPa</family>
+              <family>Microsoft Himalaya</family>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -891,7 +948,7 @@
             </property>
             <property name="font">
              <font>
-              <family>Microsoft PhagsPa</family>
+              <family>Microsoft Himalaya</family>
               <weight>75</weight>
               <bold>true</bold>
              </font>
@@ -923,6 +980,8 @@
    </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../Desktop/background1.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -3,6 +3,7 @@ import os
 import struct
 import platform
 import subprocess
+from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
 from PyQt5.uic import loadUi
 from PIL import Image
@@ -235,6 +236,7 @@ class Ui(QDialog):
         super(Ui, self).__init__()
         loadUi("./window.ui", self)
         self.setWindowTitle("Poti Maker")
+        self.setWindowIcon(QtGui.QIcon("print.ico"))
         self.stackedWidget.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
         self.pushButton.clicked.connect(self.button1)
@@ -249,7 +251,7 @@ class Ui(QDialog):
         options = QFileDialog.Options()
         fileLocation, _ = QFileDialog.getOpenFileNames(
             self,
-            "Choose files",
+            "པར་འདེམས།",
             "",
             "All Files (*);;Python Files (*.py",
             options=options,
