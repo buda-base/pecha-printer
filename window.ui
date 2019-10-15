@@ -298,7 +298,7 @@
         </item>
         <item>
          <widget class="QStackedWidget" name="pagePicker">
-          <widget class="QWidget" name="Page1" native="true">
+          <widget class="QWidget" name="Page1">
            <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
              <spacer name="horizontalSpacer_19">
@@ -322,12 +322,12 @@
                </font>
               </property>
               <property name="text">
-               <string>ཤོག་གྲངས་</string>
+               <string>PDF ཤོག་གྲངས་</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_2">
+             <widget class="QSpinBox" name="spinBox_start">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -358,7 +358,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox">
+             <widget class="QSpinBox" name="spinBox_end">
               <property name="font">
                <font>
                 <pointsize>12</pointsize>
@@ -917,7 +917,9 @@
              </font>
             </property>
             <property name="text">
-             <string/>
+            <string>A4 ཤོག་བུ་ནི་cm 7 གྱི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
+            A3 ཤོག་བུ་ནི་cm 9.9 ཡི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
+                </string>
             </property>
            </widget>
           </item>

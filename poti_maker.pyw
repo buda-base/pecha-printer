@@ -99,6 +99,7 @@ class Poti(object):
                 for file in natsorted(os.listdir(self.inputLocation))
                 if file.endswith(self.imgExt)
             ]
+            # only keep required span
             for i in range(len(inputJpgs)):
                 currentImg = Image.open(self.inputLocation + inputJpgs[i])
                 self.jpgImages.append(currentImg)
@@ -249,7 +250,14 @@ class Ui(QDialog):
         self.pushButton_5.clicked.connect(self.button3and5)
         self.pushButton_6.clicked.connect(self.close)
         self.comboBox.currentTextChanged.connect(self.combo)
+        self.spinBox_start.currentTextChanged.connect(self.spinbox)
+        self.spinBox_end.currentTextChanged.connect(self.spinbox)
         self.poti = Poti()
+
+    def spinbox(self):
+        
+        pass
+
 
     def button1(self):
         self.pushButton_2.setFocus()
@@ -279,7 +287,7 @@ class Ui(QDialog):
                     if self.fileLocationPartition[2].rpartition(".")[2] == "pdf":
                         self.label_8.setStyleSheet('color: red')
                         self.label_8.setText(
-                            "PDF གཅིག་རང་དང་ཡང་ན། པར་རྐྱང་རྐྱང་ཡིན་དགོས།"
+                            "PDF གཅིག་རང་དང་ཡང་ན། པར་ཁོ་ན་ཡིན་དགོས།"
                         )
                         self.pushButton_2.setEnabled(False)
                         multiplePdfs = True
@@ -329,12 +337,14 @@ class Ui(QDialog):
                     self.poti.inputLocation = fileLocation
 
             elif len(fileLocation) == 1:
+                self.span = []
                 self.fileLocationPartition = fileLocation[0].rpartition("/")
                 self.label_8.setText(self.fileLocationPartition[2])
                 self.outFilePrefix = self.fileLocationPartition[2].rpartition(".")[0]
                 self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
                 self.textEdit_2.setText(self.outFileName)
                 if self.fileLocationPartition[2].rpartition(".")[2] == "pdf":
+                    self.pagePicker.setHidden(False)
                     self.poti.inputFormat = "pdf"
                     self.poti.inputLocation = fileLocation[0]
                 else:
