@@ -1,4 +1,7 @@
-# TODO frame hide when images instead of pagePicker
+# TODO grey out file names in option pane
+# recto/verso selection
+# replace exit by create a new poti
+# frame hide when images instead of pagePicker
 # when checkbox isChecked pagePicker live
 # if span is true >> export(?) span, otherwise all
 
@@ -255,9 +258,13 @@ class Ui(QDialog):
         self.spinBox_start.valueChanged.connect(self.pageSpan)
         self.spinBox_end.valueChanged.connect(self.pageSpan)
         self.checkBox.stateChanged.connect(self.activateSpan)
+        self.pagePicker.setEnabled(False)
+
 
     def activateSpan(self):
-        pass
+        self.pagePicker.setEnabled(not self.pagePicker.isEnabled())
+        print('enabled')
+        # pass
 
     def pageSpan(self):
         self.poti.startPage = self.spinBox_start.value()
@@ -298,7 +305,7 @@ class Ui(QDialog):
                         break
                 # if it's multiple images display first 2 or 3 filenames
                 if multiplePdfs == False:
-                    self.pagePicker.setHidden(not self.pagePicker.isHidden())
+                    self.frame.setHidden(not self.frame.isHidden())
                     if len(fileLocation) == 2:
                         self.label_8.setText(
                             fileLocation[0].rpartition("/")[2]
@@ -348,7 +355,7 @@ class Ui(QDialog):
                 self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
                 self.textEdit_2.setText(self.outFileName)
                 if self.fileLocationPartition[2].rpartition(".")[2] == "pdf":
-                    self.pagePicker.setHidden(False)
+                    self.frame.setHidden(False)
                     self.poti.inputFormat = "pdf"
                     self.poti.inputLocation = fileLocation[0]
                 else:
