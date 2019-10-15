@@ -1,5 +1,6 @@
-# TODO when images get folder name + _size
-# when changing size change the new file name
+# TODO frame hide when images instead of pagePicker
+# when checkbox isChecked pagePicker live
+# if span is true >> export(?) span, otherwise all
 
 import sys
 import os
@@ -22,6 +23,8 @@ class Poti(object):
         self.outputName = ""
         self.outputLocation = ""
         self.outputSize = "A4"
+        self.startPage = 5
+        self.endPage = 0
         self.jpgImages = []
         self.totalImages = 0
         self.resizedImages = []
@@ -102,6 +105,7 @@ class Poti(object):
             # only keep required span
             for i in range(len(inputJpgs)):
                 currentImg = Image.open(self.inputLocation + inputJpgs[i])
+                print(self.endPage)
                 self.jpgImages.append(currentImg)
             pass
 
@@ -232,13 +236,11 @@ class Poti(object):
             shutil.rmtree("./tempFolder/")
 
 
-# Added
-
-
 class Ui(QDialog):
     def __init__(self):
         super(Ui, self).__init__()
         loadUi("./window.ui", self)
+        self.poti = Poti()
         self.setWindowTitle("Poti Maker")
         self.setWindowIcon(QtGui.QIcon("print.ico"))
         self.stackedWidget.setCurrentIndex(0)
@@ -250,14 +252,16 @@ class Ui(QDialog):
         self.pushButton_5.clicked.connect(self.button3and5)
         self.pushButton_6.clicked.connect(self.close)
         self.comboBox.currentTextChanged.connect(self.combo)
-        self.spinBox_start.currentTextChanged.connect(self.spinbox)
-        self.spinBox_end.currentTextChanged.connect(self.spinbox)
-        self.poti = Poti()
+        self.spinBox_start.valueChanged.connect(self.pageSpan)
+        self.spinBox_end.valueChanged.connect(self.pageSpan)
+        self.checkBox.stateChanged.connect(self.activateSpan)
 
-    def spinbox(self):
-        
+    def activateSpan(self):
         pass
 
+    def pageSpan(self):
+        self.poti.startPage = self.spinBox_start.value()
+        self.poti.endPage = self.spinBox_end.value()
 
     def button1(self):
         self.pushButton_2.setFocus()
@@ -357,6 +361,7 @@ class Ui(QDialog):
             self.stackedWidget_2.setCurrentIndex(1)
 
     def button2(self):
+        self.pageSpan()
         self.stackedWidget.setCurrentIndex(1)
         self.pushButton_4.setFocus()
 

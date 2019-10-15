@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PechaMaster</class>
- <widget class="QDialog" name="PechaMaster">
+ <class>PotiMaker</class>
+ <widget class="QDialog" name="PotiMaker">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -118,7 +118,7 @@
             <property name="font">
              <font>
               <family>Microsoft Himalaya</family>
-              <pointsize>12</pointsize>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
@@ -297,103 +297,125 @@
          </layout>
         </item>
         <item>
-         <widget class="QStackedWidget" name="pagePicker">
-          <widget class="QWidget" name="Page1">
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <spacer name="horizontalSpacer_19">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+         <widget class="QFrame" name="frame">
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <spacer name="horizontalSpacer_20">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBox">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QStackedWidget" name="pagePicker">
+             <widget class="QWidget" name="Page1">
+              <property name="enabled">
+               <bool>false</bool>
               </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_11">
-              <property name="font">
-               <font>
-                <family>Microsoft Himalaya</family>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>PDF ཤོག་གྲངས་</string>
-              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QLabel" name="label_11">
+                 <property name="font">
+                  <font>
+                   <family>Microsoft Himalaya</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>PDF ཤོག་གྲངས་</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBox_start">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                 <property name="value">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="font">
+                  <font>
+                   <family>Microsoft Himalaya</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>ནས།  ཤོག་གྲངས་</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBox_end">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="font">
+                  <font>
+                   <family>Microsoft Himalaya</family>
+                   <pointsize>14</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>བར།</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_start">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="value">
-               <number>5</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="font">
-               <font>
-                <family>Microsoft Himalaya</family>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>ནས།  ཤོག་གྲངས་</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_end">
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_12">
-              <property name="font">
-               <font>
-                <family>Microsoft Himalaya</family>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>བར།</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_20">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </widget>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_19">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
@@ -917,8 +939,8 @@
              </font>
             </property>
             <property name="text">
-            <string>A4 ཤོག་བུ་ནི་cm 7 གྱི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
-            A3 ཤོག་བུ་ནི་cm 9.9 ཡི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
+             <string>A4 ཤོག་བུ་ནི་cm 7 གྱི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
+A3 ཤོག་བུ་ནི་cm 9.9 ཡི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
                 </string>
             </property>
            </widget>
