@@ -32,7 +32,7 @@
    <enum>Qt::WheelFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Pecha Master</string>
+   <string>Poti Maker</string>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedKingdom"/>
@@ -53,7 +53,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-image: url(:/newPrefix/window.png);</string>
+    <string notr="true"/>
    </property>
    <property name="currentIndex">
     <number>0</number>
@@ -69,7 +69,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="page_3">
       <widget class="QWidget" name="verticalLayoutWidget">
@@ -122,7 +122,7 @@
              </font>
             </property>
             <property name="text">
-             <string>པར་འདེབས་མ་ཕྱི་བསྒྱུར་དགོས་པའི་པར་དང་། ཡང་ན་ PDF འདེམས།</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;པར་འདེབས་མ་ཕྱི་&lt;/span&gt;ལ་བསྒྱུར་དགོས་པའི་པར་རམ་ཡང་ན་ PDF འདེམས།&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>
@@ -198,7 +198,7 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>ཡིག་ཆ་འདེམས།</string>
+             <string>པར་འདེམས།</string>
             </property>
            </widget>
           </item>
@@ -261,6 +261,12 @@
           </item>
           <item>
            <widget class="QLabel" name="label_8">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>1</horstretch>
+              <verstretch>1</verstretch>
+             </sizepolicy>
+            </property>
             <property name="font">
              <font>
               <family>Microsoft Himalaya</family>
@@ -269,6 +275,9 @@
             </property>
             <property name="text">
              <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
@@ -286,6 +295,106 @@
            </spacer>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QStackedWidget" name="pagePicker">
+          <widget class="QWidget" name="Page1" native="true">
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <spacer name="horizontalSpacer_19">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_11">
+              <property name="font">
+               <font>
+                <family>Microsoft Himalaya</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>ཤོག་གྲངས་</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="value">
+               <number>5</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="font">
+               <font>
+                <family>Microsoft Himalaya</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>ནས།  ཤོག་གྲངས་</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinBox">
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_12">
+              <property name="font">
+               <font>
+                <family>Microsoft Himalaya</family>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>བར།</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_20">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacer_6">
@@ -436,86 +545,6 @@
               <family>Microsoft Himalaya</family>
               <pointsize>14</pointsize>
              </font>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="palette">
-             <palette>
-              <active>
-               <colorrole role="WindowText">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>255</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Text">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>255</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </brush>
-               </colorrole>
-              </active>
-              <inactive>
-               <colorrole role="WindowText">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>255</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Text">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>255</red>
-                  <green>0</green>
-                  <blue>0</blue>
-                 </color>
-                </brush>
-               </colorrole>
-              </inactive>
-              <disabled>
-               <colorrole role="WindowText">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>120</red>
-                  <green>120</green>
-                  <blue>120</blue>
-                 </color>
-                </brush>
-               </colorrole>
-               <colorrole role="Text">
-                <brush brushstyle="SolidPattern">
-                 <color alpha="255">
-                  <red>120</red>
-                  <green>120</green>
-                  <blue>120</blue>
-                 </color>
-                </brush>
-               </colorrole>
-              </disabled>
-             </palette>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft Himalaya</family>
-              <pointsize>12</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>*དགོས་ངེས་ཅན།</string>
             </property>
            </widget>
           </item>
@@ -676,7 +705,7 @@
            </font>
           </property>
           <property name="text">
-           <string>འགྲིག</string>
+           <string>མ་ཕྱི་བསྒྲིག</string>
           </property>
          </widget>
         </item>
@@ -756,7 +785,7 @@
              </font>
             </property>
             <property name="text">
-             <string>བསྒྲིག་མུས།</string>
+             <string>སྒྲིག་མུས་ཡིན།</string>
             </property>
            </widget>
           </item>
@@ -815,7 +844,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Done!</string>
+             <string>པར་འདེབས་མ་ཕྱི་བསྒྲིགས་ཟིན།</string>
             </property>
            </widget>
           </item>
@@ -842,18 +871,22 @@
             <height>16777215</height>
            </size>
           </property>
-          <property name="acceptDrops">
-           <bool>true</bool>
-          </property>
           <property name="text">
-           <string>The file was successfully exported to the same folder as</string>
+           <string/>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="label_10">
+          <property name="font">
+           <font>
+            <family>Microsoft Himalaya</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>your original file/s.</string>
+           <string>པར་འདེབས་མ་ཕྱི་ཁུངས་ཀྱི་པར་མཉམ་དུ་བཞག་ཡོད།
+              </string>
           </property>
          </widget>
         </item>
@@ -880,12 +913,11 @@
             <property name="font">
              <font>
               <family>Microsoft Himalaya</family>
-              <weight>75</weight>
-              <bold>true</bold>
+              <pointsize>14</pointsize>
              </font>
             </property>
             <property name="text">
-             <string>Thank you for using PechaMaster.</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -949,12 +981,13 @@
             <property name="font">
              <font>
               <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
               <weight>75</weight>
               <bold>true</bold>
              </font>
             </property>
             <property name="text">
-             <string>Exit</string>
+             <string>ཕྱིར་འཐོན།</string>
             </property>
            </widget>
           </item>

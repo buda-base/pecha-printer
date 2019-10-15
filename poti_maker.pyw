@@ -1,3 +1,6 @@
+# TODO when images get folder name + _size
+# when changing size change the new file name
+
 import sys
 import os
 import struct
@@ -11,14 +14,14 @@ from natsort import natsorted
 import shutil
 
 
-class Pecha(object):
+class Poti(object):
     def __init__(self):
-        super(Pecha, self).__init__()
+        super(Poti, self).__init__()
         self.inputFormat = ""
         self.inputLocation = ""
         self.outputName = ""
         self.outputLocation = ""
-        self.outputSize = ""
+        self.outputSize = "A4"
         self.jpgImages = []
         self.totalImages = 0
         self.resizedImages = []
@@ -185,7 +188,7 @@ class Pecha(object):
                 if self.imageStacks[2][0]:
                     self.imageStacks[1].append(self.imageStacks[2][0])
 
-                if self.imageStacks[2][1]:
+                elif self.imageStacks[2][1]:
                     self.imageStacks[1].append(self.imageStacks[2][1])
 
             if len(self.imageStacks[1]) - 1 >= 0:
@@ -245,66 +248,107 @@ class Ui(QDialog):
         self.pushButton_4.clicked.connect(self.button4)
         self.pushButton_5.clicked.connect(self.button3and5)
         self.pushButton_6.clicked.connect(self.close)
-        self.poti = Pecha()
+        self.comboBox.currentTextChanged.connect(self.combo)
+        self.poti = Poti()
 
     def button1(self):
+        self.pushButton_2.setFocus()
         options = QFileDialog.Options()
+        dir = os.path.expanduser('~/Desktop/')
+        filters = "པར་རིགས། (*.png *.jpg *.jpeg *.tif *.tiff *.gif *.pdf);; ཡོངས་རྫོགས། ()"
         fileLocation, _ = QFileDialog.getOpenFileNames(
             self,
             "པར་འདེམས།",
-            "",
-            "All Files (*);;Python Files (*.py",
+            dir,
+            filters,
             options=options,
         )
-        # 	print(fileLocation)
 
         if fileLocation:
+            self.parentDir = os.path.basename(os.path.dirname(fileLocation[0]))
+            self.label_8.setStyleSheet('')
+
             self.pushButton_2.setEnabled(True)
+            # check if several files are selected
             if len(fileLocation) > 1:
                 self.poti.inputLocation = fileLocation
                 multiplePdfs = False
                 for i in range(0, len(fileLocation), 1):
-                    fileLocationPartition = fileLocation[i].rpartition("/")
-                    if fileLocationPartition[2].rpartition(".")[2] == "pdf":
+                    self.fileLocationPartition = fileLocation[i].rpartition("/")
+                    # error message if it's multiple pdfs
+                    if self.fileLocationPartition[2].rpartition(".")[2] == "pdf":
+                        self.label_8.setStyleSheet('color: red')
                         self.label_8.setText(
-                            "Please select only one pdf or a group of images"
+                            "PDF གཅིག་རང་དང་ཡང་ན། པར་རྐྱང་རྐྱང་ཡིན་དགོས།"
                         )
                         self.pushButton_2.setEnabled(False)
                         multiplePdfs = True
                         break
+                # if it's multiple images display first 2 or 3 filenames
                 if multiplePdfs == False:
-                    firstFileLocationPartition = fileLocation[0].rpartition("/")[2]
-                    self.label_8.setText(
-                        fileLocation[0].rpartition("/")[2]
-                        + ", "
-                        + fileLocation[1].rpartition("/")[2]
-                        + ", ..."
-                    )
-                    self.textEdit_2.setText(
-                        firstFileLocationPartition.rpartition(".")[0] + "_2"
-                    )
+                    self.pagePicker.setHidden(not self.pagePicker.isHidden())
+                    if len(fileLocation) == 2:
+                        self.label_8.setText(
+                            fileLocation[0].rpartition("/")[2]
+                            + ", "
+                            + fileLocation[1].rpartition("/")[2]
+                        )
+                    elif len(fileLocation) == 3:
+                        self.label_8.setText(
+                            fileLocation[0].rpartition("/")[2]
+                            + ", "
+                            + fileLocation[1].rpartition("/")[2]
+                            + ", "
+                            + fileLocation[2].rpartition("/")[2]
+                        )
+                    elif len(fileLocation) == 4:
+                        self.label_8.setText(
+                            fileLocation[0].rpartition("/")[2]
+                            + ", "
+                            + fileLocation[1].rpartition("/")[2]
+                            + ", "
+                            + fileLocation[2].rpartition("/")[2]
+                            + ", "
+                            + fileLocation[3].rpartition("/")[2]
+                        )
+                    elif len(fileLocation) > 4:
+                        self.label_8.setText(
+                            fileLocation[0].rpartition("/")[2]
+                            + ", "
+                            + fileLocation[1].rpartition("/")[2]
+                            + "   ...   "
+                            + fileLocation[2].rpartition("/")[2]
+                            + ", "
+                            + fileLocation[-1].rpartition("/")[2]
+                        )
+                    # display new file name (folder for images)
+                    self.outFilePrefix = self.parentDir
+                    self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
+                    self.textEdit_2.setText(self.outFileName)
                     self.poti.inputFormat = "img"
                     self.poti.inputLocation = fileLocation
 
             elif len(fileLocation) == 1:
-                fileLocationPartition = fileLocation[0].rpartition("/")
-                self.label_8.setText(fileLocationPartition[2])
-                self.textEdit_2.setText(
-                    fileLocationPartition[2].rpartition(".")[0] + "_2"
-                )
-                if fileLocationPartition[2].rpartition(".")[2] == "pdf":
+                self.fileLocationPartition = fileLocation[0].rpartition("/")
+                self.label_8.setText(self.fileLocationPartition[2])
+                self.outFilePrefix = self.fileLocationPartition[2].rpartition(".")[0]
+                self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
+                self.textEdit_2.setText(self.outFileName)
+                if self.fileLocationPartition[2].rpartition(".")[2] == "pdf":
                     self.poti.inputFormat = "pdf"
                     self.poti.inputLocation = fileLocation[0]
                 else:
-                    self.poti.inputFormat = "img"
-                    self.poti.inputLocation = fileLocation
+                    self.label_8.setStyleSheet('color: red')
+                    self.label_8.setText("ཉུང་མཐར་པར་གཉིས་དགོས།")
+                    self.pushButton_2.setEnabled(False)
 
-            self.poti.outputLocation = fileLocationPartition[0] + "/"
+            self.poti.outputLocation = self.fileLocationPartition[0] + "/"
 
             self.stackedWidget_2.setCurrentIndex(1)
 
     def button2(self):
         self.stackedWidget.setCurrentIndex(1)
+        self.pushButton_4.setFocus()
 
     def button3and5(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -321,6 +365,17 @@ class Ui(QDialog):
         process = self.poti.Main()
         if process == 1:
             self.stackedWidget_3.setCurrentIndex(1)
+        self.pushButton_6.setFocus()
+    
+    def combo(self):
+        if self.comboBox.currentIndex() == 0:
+            self.poti.outputSize = "A4"
+        elif self.comboBox.currentIndex() == 1:
+            self.poti.outputSize = "A3"
+        # update name suffix
+        self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
+        self.textEdit_2.setText(self.outFileName)
+
 
 
 if __name__ == "__main__":
