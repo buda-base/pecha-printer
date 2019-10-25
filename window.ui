@@ -63,13 +63,13 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>250</y>
+       <y>120</y>
        <width>801</width>
-       <height>291</height>
+       <height>421</height>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_3">
       <widget class="QWidget" name="verticalLayoutWidget">
@@ -78,7 +78,7 @@
          <x>0</x>
          <y>20</y>
          <width>801</width>
-         <height>271</height>
+         <height>401</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -87,10 +87,13 @@
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>40</height>
+            <height>100</height>
            </size>
           </property>
          </spacer>
@@ -122,7 +125,7 @@
              </font>
             </property>
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;པར་འདེབས་མ་ཕྱི་&lt;/span&gt;ལ་བསྒྱུར་དགོས་པའི་པར་རམ་ཡང་ན་ PDF འདེམས།&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>པར་འདེབས་མ་ཕྱི་ལ་བསྒྱུར་དགོས་པའི་པར་རམ་ཡང་ན་ PDF འདེམས།</string>
             </property>
            </widget>
           </item>
@@ -225,9 +228,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>30</y>
+         <y>20</y>
          <width>801</width>
-         <height>261</height>
+         <height>401</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -236,10 +239,13 @@
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>40</height>
+            <height>70</height>
            </size>
           </property>
          </spacer>
@@ -297,72 +303,17 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_15">
-          <item>
-           <spacer name="horizontalSpacer_22">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton_2">
-            <property name="font">
-             <font>
-              <family>Microsoft Himalaya</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>འདུན་ངོས་སྔོན་འགྲོ།    </string>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton">
-            <property name="font">
-             <font>
-              <family>Microsoft Himalaya</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>རྒྱབ་ངོས་སྔོན་འགྲོ།</string>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>30</width>
-              <height>30</height>
-             </size>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_21">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item>
          <widget class="QFrame" name="frame">
@@ -412,7 +363,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>PDF ཤོག་གྲངས་</string>
+                  <string>ཤོག་ངོས་ </string>
                  </property>
                  <property name="scaledContents">
                   <bool>false</bool>
@@ -435,6 +386,12 @@
                    <pointsize>12</pointsize>
                   </font>
                  </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>9999</number>
+                 </property>
                  <property name="value">
                   <number>5</number>
                  </property>
@@ -449,7 +406,7 @@
                   </font>
                  </property>
                  <property name="text">
-                  <string>ནས།  ཤོག་གྲངས་</string>
+                  <string>ནས་</string>
                  </property>
                 </widget>
                </item>
@@ -459,6 +416,9 @@
                   <font>
                    <pointsize>12</pointsize>
                   </font>
+                 </property>
+                 <property name="maximum">
+                  <number>9999</number>
                  </property>
                 </widget>
                </item>
@@ -496,14 +456,98 @@
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer_6">
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <spacer name="horizontalSpacer_22">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="font">
+             <font>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>པར་དང་པོ་ནི་</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_2">
+            <property name="font">
+             <font>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>འདུན་ངོས་ཡིན།    </string>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton">
+            <property name="font">
+             <font>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>རྒྱབ་ངོས་ཡིན།</string>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>30</width>
+              <height>30</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_21">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_10">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>40</height>
+            <height>30</height>
            </size>
           </property>
          </spacer>
@@ -1016,8 +1060,8 @@
              </font>
             </property>
             <property name="text">
-             <string>A4 ཤོག་བུ་ནི་cm 7 གྱི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
-A3 ཤོག་བུ་ནི་cm 9.9 ཡི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
+             <string>A4 ཤོག་བུ་ནི་བརྒྱ་ཆའི་སྨི་(cm) 7 གྱི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
+A3 ཤོག་བུ་ནི་བརྒྱ་ཆའི་སྨི་(cm) 9.9 ཡི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།
                 </string>
             </property>
            </widget>
@@ -1083,12 +1127,10 @@ A3 ཤོག་བུ་ནི་cm 9.9 ཡི་དུམ་བུ་གསུ�
              <font>
               <family>Microsoft Himalaya</family>
               <pointsize>14</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
              </font>
             </property>
             <property name="text">
-             <string>ཕྱིར་འཐོན།</string>
+             <string>མ་ཕྱི་གསར་པ་བསྒྲིག</string>
             </property>
            </widget>
           </item>
