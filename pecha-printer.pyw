@@ -1,6 +1,3 @@
-# TODO 
-# recto/verso selection
-
 import sys
 import os
 import struct
@@ -14,9 +11,9 @@ from natsort import natsorted
 import shutil
 
 
-class Poti(object):
+class Pecha(object):
     def __init__(self):
-        super(Poti, self).__init__()
+        super(Pecha, self).__init__()
         self.inputFormat = ""
         self.inputLocation = ""
         self.outputName = ""
@@ -265,8 +262,8 @@ class Ui(QDialog):
     def __init__(self):
         super(Ui, self).__init__()
         loadUi("./window.ui", self)
-        self.poti = Poti()
-        self.setWindowTitle("Poti Maker")
+        self.pecha = Pecha()
+        self.setWindowTitle("Pecha Printer")
         self.setWindowIcon(QtGui.QIcon("print.ico"))
         self.stackedWidget.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
@@ -295,18 +292,18 @@ class Ui(QDialog):
 
 
     def restart(self):
-        self.poti = Poti()
-        self.poti.tempJpgs = []
+        self.pecha = Pecha()
+        self.pecha.tempJpgs = []
         self.setDefaults()
         self.button3and5()
 
     # define if the starting side is recto or verso
     def startingSide(self):
         if self.radioButton.isChecked():
-            self.poti.startSide = 'B'
+            self.pecha.startSide = 'B'
         else:
-            self.poti.startSide = 'A'
-        print(f'starting side is {self.poti.startSide}')
+            self.pecha.startSide = 'A'
+        print(f'starting side is {self.pecha.startSide}')
 
 
     def activateSpan(self):
@@ -334,7 +331,7 @@ class Ui(QDialog):
             self.pushButton_2.setEnabled(True)
 
             # flag less than 2 pages
-            if self.startPage > self.poti.tempJpgsNumber-1 and self.pagePicker.isEnabled():
+            if self.startPage > self.pecha.tempJpgsNumber-1 and self.pagePicker.isEnabled():
                 self.spinBox_start.setStyleSheet("color: red")
                 self.spinBox_end.setStyleSheet("color: red")
                 self.pushButton_2.setEnabled(False)
@@ -365,7 +362,7 @@ class Ui(QDialog):
             self.pushButton_2.setEnabled(True)
             # check if several files are selected
             if len(fileLocation) > 1:
-                self.poti.inputLocation = fileLocation
+                self.pecha.inputLocation = fileLocation
                 multiplePdfs = False
                 for i in range(0, len(fileLocation), 1):
                     self.fileLocationPartition = fileLocation[i].rpartition("/")
@@ -406,10 +403,10 @@ class Ui(QDialog):
                         )
                     # display new file name (folder for images)
                     self.outFilePrefix = self.parentDir
-                    self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
+                    self.outFileName = self.outFilePrefix + f"_{self.pecha.outputSize}"
                     self.textEdit_2.setText(self.outFileName)
-                    self.poti.inputFormat = "img"
-                    self.poti.inputLocation = fileLocation
+                    self.pecha.inputFormat = "img"
+                    self.pecha.inputLocation = fileLocation
 
             elif len(fileLocation) == 1:
                 self.span = []
@@ -417,42 +414,42 @@ class Ui(QDialog):
                 print(self.fileLocationPartition[2].rpartition(".")[2])
                 # self.label_8.setText("ཡིག་ཆ། " + self.fileLocationPartition[2])
                 self.outFilePrefix = self.fileLocationPartition[2].rpartition(".")[0]
-                self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
+                self.outFileName = self.outFilePrefix + f"_{self.pecha.outputSize}"
                 self.textEdit_2.setText(self.outFileName)
                 if self.fileLocationPartition[2].rpartition(".")[2] == "pdf":
                     self.frame.setHidden(False)
-                    self.poti.inputFormat = "pdf"
-                    self.poti.inputLocation = fileLocation[0]
+                    self.pecha.inputFormat = "pdf"
+                    self.pecha.inputLocation = fileLocation[0]
                     # extract images from PDF to temp folder and create list
-                    self.poti.extractImages()
-                    if self.poti.tempJpgsNumber < 2:              
+                    self.pecha.extractImages()
+                    if self.pecha.tempJpgsNumber < 2:              
                         self.label_8.setStyleSheet('color: red')
                         self.label_8.setText("ཉུང་མཐར་པར་གཉིས་དགོས།")
                         self.pushButton_2.setEnabled(False)
                     else:
-                        self.spinBox_end.setMaximum(self.poti.tempJpgsNumber)
-                        self.label_8.setText(f"ཡིག་ཆ། {self.fileLocationPartition[2]}    ཤོག་གྲངས། {self.poti.tempJpgsNumber}")
+                        self.spinBox_end.setMaximum(self.pecha.tempJpgsNumber)
+                        self.label_8.setText(f"ཡིག་ཆ། {self.fileLocationPartition[2]}    ཤོག་གྲངས། {self.pecha.tempJpgsNumber}")
                 else:
                     self.label_8.setStyleSheet('color: red')
                     self.label_8.setText("ཉུང་མཐར་པར་གཉིས་དགོས།")
                     self.pushButton_2.setEnabled(False)
 
-            self.poti.outputLocation = self.fileLocationPartition[0] + "/"
+            self.pecha.outputLocation = self.fileLocationPartition[0] + "/"
             self.stackedWidget_2.setCurrentIndex(1)
 
     def setPageSpan(self):
         start = self.startPage-1
         end = self.endPage
 
-        print(self.poti.tempJpgs)
+        print(self.pecha.tempJpgs)
 
         if self.pagePicker.isEnabled(): 
             if self.endPage == 0:
-                del self.poti.tempJpgs[:start]
+                del self.pecha.tempJpgs[:start]
             elif self.endPage != 0:
-                del self.poti.tempJpgs[end:]
-                del self.poti.tempJpgs[:start]
-        print(self.poti.tempJpgs)
+                del self.pecha.tempJpgs[end:]
+                del self.pecha.tempJpgs[:start]
+        print(self.pecha.tempJpgs)
         pass
 
     def button2(self):
@@ -465,25 +462,25 @@ class Ui(QDialog):
         self.stackedWidget_2.setCurrentIndex(0)
 
     def button4(self):
-        self.poti.outputName = self.textEdit_2.toPlainText()
+        self.pecha.outputName = self.textEdit_2.toPlainText()
         if self.comboBox.currentIndex() == 0:
-            self.poti.outputSize = "A4"
+            self.pecha.outputSize = "A4"
         elif self.comboBox.currentIndex() == 1:
-            self.poti.outputSize = "A3"
+            self.pecha.outputSize = "A3"
         self.stackedWidget.setCurrentIndex(2)
         self.stackedWidget_3.setCurrentIndex(0)
-        process = self.poti.Main()
+        process = self.pecha.Main()
         if process == 1:
             self.stackedWidget_3.setCurrentIndex(1)
         self.pushButton_6.setFocus()
     
     def combo(self):
         if self.comboBox.currentIndex() == 0:
-            self.poti.outputSize = "A4"
+            self.pecha.outputSize = "A4"
         elif self.comboBox.currentIndex() == 1:
-            self.poti.outputSize = "A3"
+            self.pecha.outputSize = "A3"
         # update name suffix
-        self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
+        self.outFileName = self.outFilePrefix + f"_{self.pecha.outputSize}"
         self.textEdit_2.setText(self.outFileName)
 
 

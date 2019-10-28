@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PotiMaker</class>
- <widget class="QDialog" name="PotiMaker">
+ <class>PechaPrinter</class>
+ <widget class="QDialog" name="PechaPrinter">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -32,7 +32,7 @@
    <enum>Qt::WheelFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Poti Maker</string>
+   <string>Pecha Printer</string>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedKingdom"/>
