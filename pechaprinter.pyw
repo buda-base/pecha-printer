@@ -438,6 +438,8 @@ class Ui(QDialog):
             self.stackedWidget_2.setCurrentIndex(1)
 
     def setPageSpan(self):
+        self.startPage = self.spinBox_start.value()
+        self.endPage = self.spinBox_end.value()
         start = self.startPage-1
         end = self.endPage
 
