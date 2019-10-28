@@ -1,4 +1,4 @@
-natsort>=6.0.0
+natsort==6.0.0
 Pillow>=6.0.0
 PyQt5>=5.13.0
 PyQt5-sip>=4.19.18
