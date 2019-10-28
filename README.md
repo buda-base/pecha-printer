@@ -4,16 +4,17 @@ Standalone app converting a pdf into a ready to print "Pecha", traditional tibet
 ## Install
 ### Version 01
 
-* Download [Windows 64 installer](https://github.com/Esukhia/dakje/releases/download/beta_01/Dakje_beta_01.exe)
+* Download [Windows 64 installer](https://github.com/buda-base/pecha-printer/releases/download/v0.1/PechaPrinter_1.0.exe)
 
  
 ## Roadmap
 ### To do:
-- [] localization
-- [] custom paper size
-- [] option to binarise all images for unity
-- [] combine multiple pdfs
-- [] bundle for distribution
+- [ ] redesign the UI
+- [x] localization
+- [ ] custom paper size
+- [ ] option to binarise all images for unity
+- [ ] combine multiple pdfs
+- [x] bundle for distribution
 
 ### Wish list:
 - split pdfs on outline and name files after section names
