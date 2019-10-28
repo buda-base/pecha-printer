@@ -1,6 +1,4 @@
 # TODO 
-# set end spinbox to number of images
-# page 8 disappears!
 # recto/verso selection
 
 import sys
@@ -24,9 +22,9 @@ class Poti(object):
         self.outputName = ""
         self.outputLocation = ""
         self.outputSize = "A4"
-        # self.startPage = 5
-        # self.endPage = 0
         self.startSide = "A"
+        # dummy image to change start side, 3 is a highly improbable value
+        self.dummyImg = Image.new('RGB', (3, 3), color = 'white')
         self.jpgImages = []
         self.totalImages = 0
         self.resizedImages = []
@@ -69,11 +67,15 @@ class Poti(object):
         self.collectFiles()
         self.resizeImages()
         self.orderImages()
-        self.savePdf()
         print("Done! ;)")
+        self.savePdf()
         return 1
 
     def collectFiles(self):
+
+        # insert extra first page by default
+        self.jpgImages.insert(0, self.dummyImg)
+
         if self.inputFormat == "img":
             for i in range(len(self.inputLocation)):
                 currentImg = Image.open(self.inputLocation[i])
@@ -85,6 +87,16 @@ class Poti(object):
                 currentImg = Image.open(self.inputLocation + self.tempJpgs[i])
                 self.jpgImages.append(currentImg)
             pass
+
+        # check if it's needed, del if it's not needed
+        if self.startSide == 'B':
+            if self.jpgImages[0].size[0] != 3:
+                self.jpgImages.insert(0, self.dummyImg)
+        else:
+            if self.jpgImages[0].size[0] == 3:
+                del self.jpgImages[0]
+        print(self.jpgImages[0].size[0])
+
 
         self.totalImages = len(self.jpgImages)
         self.totalPages = self.totalImages // 3
@@ -111,7 +123,6 @@ class Poti(object):
         )
         self.inputLocation = "./tempFolder/"
         while p.poll() == None:
-            # 				print("Waiting")
             if p.poll() != None:
                 break
 
@@ -189,7 +200,7 @@ class Poti(object):
                 self.imageStacks[0].append(self.resizedImages[i])
             for i in range(self.totalPages, self.totalPages * 2, 1):
                 self.imageStacks[1].append(self.resizedImages[i])
-            for i in range(self.totalPages * 2, self.totalImages, 1):
+            for i in range(self.totalPages * 2, self.totalImages, 1): 
                 self.imageStacks[2].append(self.resizedImages[i])
 
         if len(self.imageStacks[0]) % 2 != 0:
@@ -200,6 +211,13 @@ class Poti(object):
                 if self.imageStacks[2][0]:
                     self.imageStacks[1].append(self.imageStacks[2][0])
 
+                # HACK with `elif self.imageStacks[2][1]:` 3 and 7 bug
+                # with `if` instead the last page of 1st stack disapears
+                # page 8 and page 20 for example, go figure!
+                if len(self.resizedImages) == 3:
+                    pass 
+                elif len(self.resizedImages) == 7:
+                    pass
                 elif self.imageStacks[2][1]:
                     self.imageStacks[1].append(self.imageStacks[2][1])
 
@@ -261,20 +279,27 @@ class Ui(QDialog):
         self.comboBox.currentTextChanged.connect(self.combo)
         self.spinBox_end.setStyleSheet("color: grey")
         self.label_8.setStyleSheet("color: grey")
-        self.startPage = 5
-        self.endPage = 0
         self.spinBox_start.valueChanged.connect(self.changePageSpan)
         self.spinBox_end.valueChanged.connect(self.changePageSpan)
         self.checkBox.stateChanged.connect(self.activateSpan)
         self.radioButton.toggled.connect(self.startingSide)
 
-        self.pagePicker.setEnabled(False)
+        self.setDefaults()
+
+    def setDefaults(self):
+        self.checkBox.setChecked(False)
         self.radioButton_2.setChecked(True)
+        self.pagePicker.setEnabled(False)
+        self.spinBox_start.setValue(5)
+        self.spinBox_end.setValue(0)
+
 
     def restart(self):
         self.poti = Poti()
         self.poti.tempJpgs = []
+        self.setDefaults()
         self.button3and5()
+
     # define if the starting side is recto or verso
     def startingSide(self):
         if self.radioButton.isChecked():
@@ -288,6 +313,8 @@ class Ui(QDialog):
         self.pagePicker.setEnabled(not self.pagePicker.isEnabled())
         self.spinBox_start.setStyleSheet("")
         self.spinBox_end.setStyleSheet("")
+        self.startPage = self.spinBox_start.value()
+        self.endPage = self.spinBox_end.value()
         print(f'enabled: {self.pagePicker.isEnabled()} {self.startPage, self.endPage}')
         self.changePageSpan()
 
@@ -331,6 +358,7 @@ class Ui(QDialog):
 
         if fileLocation:
             self.parentDir = os.path.basename(os.path.dirname(fileLocation[0]))
+            print(fileLocation)
             # self.label_8.setStyleSheet("font: italic; color: grey")
             self.label_8.setStyleSheet("color: blue")
 
@@ -353,42 +381,27 @@ class Ui(QDialog):
                 # if it's multiple images display first 2 or 3 filenames
                 if multiplePdfs == False:
                     self.frame.setHidden(not self.frame.isHidden())
-                    if len(fileLocation) == 2:
+
+                    if len(fileLocation) == 1:
+                        self.label_8.setStyleSheet('color: red')
+                        self.label_8.setText(
+                            "PDF གཅིག་རང་དང་ཡང་ན། པར་ཁོ་ན་ཡིན་དགོས།"
+                        )
+                        print('Hi')
+                        self.pushButton_2.setEnabled(False)
+
+                    elif len(fileLocation) == 2:
                         self.label_8.setText(
                             "ཡིག་ཆ། "
                             + fileLocation[0].rpartition("/")[2]
                             + ", "
                             + fileLocation[1].rpartition("/")[2]
                         )
-                    elif len(fileLocation) == 3:
+                    elif len(fileLocation) >= 3:
                         self.label_8.setText(
                             "ཡིག་ཆ། "
                             + fileLocation[0].rpartition("/")[2]
-                            + ", "
-                            + fileLocation[1].rpartition("/")[2]
-                            + ", "
-                            + fileLocation[2].rpartition("/")[2]
-                        )
-                    elif len(fileLocation) == 4:
-                        self.label_8.setText(
-                            "ཡིག་ཆ། "
-                            + fileLocation[0].rpartition("/")[2]
-                            + ", "
-                            + fileLocation[1].rpartition("/")[2]
-                            + ", "
-                            + fileLocation[2].rpartition("/")[2]
-                            + ", "
-                            + fileLocation[3].rpartition("/")[2]
-                        )
-                    elif len(fileLocation) > 4:
-                        self.label_8.setText(
-                            "ཡིག་ཆ། "
-                            + fileLocation[0].rpartition("/")[2]
-                            + ", "
-                            + fileLocation[1].rpartition("/")[2]
-                            + "   ...   "
-                            + fileLocation[2].rpartition("/")[2]
-                            + ", "
+                            + ", ... "
                             + fileLocation[-1].rpartition("/")[2]
                         )
                     # display new file name (folder for images)
@@ -401,6 +414,7 @@ class Ui(QDialog):
             elif len(fileLocation) == 1:
                 self.span = []
                 self.fileLocationPartition = fileLocation[0].rpartition("/")
+                print(self.fileLocationPartition[2].rpartition(".")[2])
                 # self.label_8.setText("ཡིག་ཆ། " + self.fileLocationPartition[2])
                 self.outFilePrefix = self.fileLocationPartition[2].rpartition(".")[0]
                 self.outFileName = self.outFilePrefix + f"_{self.poti.outputSize}"
@@ -416,14 +430,14 @@ class Ui(QDialog):
                         self.label_8.setText("ཉུང་མཐར་པར་གཉིས་དགོས།")
                         self.pushButton_2.setEnabled(False)
                     else:
+                        self.spinBox_end.setMaximum(self.poti.tempJpgsNumber)
                         self.label_8.setText(f"ཡིག་ཆ། {self.fileLocationPartition[2]}    ཤོག་གྲངས། {self.poti.tempJpgsNumber}")
-                elif self.fileLocationPartition[2].rpartition(".")[2] == "img":
+                else:
                     self.label_8.setStyleSheet('color: red')
                     self.label_8.setText("ཉུང་མཐར་པར་གཉིས་དགོས།")
                     self.pushButton_2.setEnabled(False)
 
             self.poti.outputLocation = self.fileLocationPartition[0] + "/"
-
             self.stackedWidget_2.setCurrentIndex(1)
 
     def setPageSpan(self):
@@ -439,9 +453,6 @@ class Ui(QDialog):
                 del self.poti.tempJpgs[end:]
                 del self.poti.tempJpgs[:start]
         print(self.poti.tempJpgs)
-                
-
-
         pass
 
     def button2(self):
