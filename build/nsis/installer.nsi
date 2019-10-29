@@ -1,10 +1,10 @@
-!define PRODUCT_NAME "Pecha Printer"
+!define PRODUCT_NAME "PechaPrinter"
 !define PRODUCT_VERSION "1.0"
-!define PY_VERSION "3.6.0"
-!define PY_MAJOR_VERSION "3.6"
+!define PY_VERSION "3.7.0"
+!define PY_MAJOR_VERSION "3.7"
 !define BITNESS "64"
 !define ARCH_TAG ".amd64"
-!define INSTALLER_NAME "Pecha_Printer_1.0.exe"
+!define INSTALLER_NAME "PechaPrinter_1.0.exe"
 !define PRODUCT_ICON "print.ico"
 
 ; Marker file to tell the uninstaller that it's a user installation
@@ -16,7 +16,7 @@ SetCompressor lzma
 !define MULTIUSER_INSTALLMODE_DEFAULT_CURRENTUSER
 !define MULTIUSER_MUI
 !define MULTIUSER_INSTALLMODE_COMMANDLINE
-!define MULTIUSER_INSTALLMODE_INSTDIR "Pecha Printer"
+!define MULTIUSER_INSTALLMODE_INSTDIR "PechaPrinter"
 !define MULTIUSER_INSTALLMODE_FUNCTION correct_prog_files
 !include MultiUser.nsh
 
@@ -60,15 +60,14 @@ Section "!${PRODUCT_NAME}" sec_app
 
       ; Install files
     SetOutPath "$INSTDIR"
+      File "PechaPrinter.launch.pyw"
       File "print.ico"
-      File "Pecha_Printer.launch.pyw"
-    SetOutPath "$INSTDIR\pkgs"
-      File "print.1.ico"
-      File "window.ui"
   
   ; Install directories
     SetOutPath "$INSTDIR\Python"
     File /r "Python\*.*"
+    SetOutPath "$INSTDIR\pkgs\rsc"
+    File /r "rsc\*.*"
     SetOutPath "$INSTDIR\pkgs\dep"
     File /r "dep\*.*"
 
@@ -123,8 +122,8 @@ Section "!${PRODUCT_NAME}" sec_app
   ; Install shortcuts
   ; The output path becomes the working directory for shortcuts
   SetOutPath "%HOMEDRIVE%\%HOMEPATH%"
-    CreateShortCut "$SMPROGRAMS\Pecha Printer.lnk" "$INSTDIR\Python\pythonw.exe" \
-      '"$INSTDIR\Pecha_Printer.launch.pyw"' "$INSTDIR\print.ico"
+    CreateShortCut "$SMPROGRAMS\PechaPrinter.lnk" "$INSTDIR\Python\pythonw.exe" \
+      '"$INSTDIR\PechaPrinter.launch.pyw"' "$INSTDIR\print.ico"
   SetOutPath "$INSTDIR"
 
   
@@ -172,16 +171,15 @@ Section "Uninstall"
   ; Remove ourselves from %PATH%
 
   ; Uninstall files
+    Delete "$INSTDIR\PechaPrinter.launch.pyw"
     Delete "$INSTDIR\print.ico"
-    Delete "$INSTDIR\Pecha_Printer.launch.pyw"
-    Delete "$INSTDIR\pkgs\print.1.ico"
-    Delete "$INSTDIR\pkgs\window.ui"
   ; Uninstall directories
     RMDir /r "$INSTDIR\Python"
+    RMDir /r "$INSTDIR\pkgs\rsc"
     RMDir /r "$INSTDIR\pkgs\dep"
 
   ; Uninstall shortcuts
-      Delete "$SMPROGRAMS\Pecha Printer.lnk"
+      Delete "$SMPROGRAMS\PechaPrinter.lnk"
   RMDir $INSTDIR
   DeleteRegKey SHCTX "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 SectionEnd

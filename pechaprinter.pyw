@@ -3,13 +3,15 @@ import os
 import struct
 import platform
 import subprocess
-from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QDialog, QFileDialog
+from PyQt5 import QtWidgets, QtGui
+from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 from PIL import Image
 from natsort import natsorted
 import shutil
 
+BASEDIR = os.path.dirname(os.path.abspath(__file__))
+TEMPDIR =  os.path.expanduser('~/Documents/~temp/')
 
 class Pecha(object):
     def __init__(self):
@@ -53,8 +55,8 @@ class Pecha(object):
             "png",
             "pbm",
         )
-        self.pdfimagesLocation = "{cwd}/dep/{platform}/bin{bits}/pdfimages{ext}".format(
-            cwd=os.getcwd(),
+        self.pdfimagesLocation = "{base}/dep/{platform}/bin{bits}/pdfimages{ext}".format(
+            base=BASEDIR,
             platform=("Mac" if platform.system() == "Darwin" else platform.system()),
             bits=8 * struct.calcsize("P"),
             ext=(".exe" if platform.system() == "Windows" else ""),
@@ -103,22 +105,29 @@ class Pecha(object):
             pass
     
     def extractImages(self):
-        path = "./tempFolder/"
-        if not os.path.exists(path):
-            os.makedirs(path)
+        if not os.path.exists(TEMPDIR):
+            os.makedirs(TEMPDIR)
         else:
-            shutil.rmtree(path)  # removes all the subdirectories!
-            os.makedirs(path)
-        # 	os.path.join adds the trailing slash that's silently deleted by abspath
+            shutil.rmtree(TEMPDIR)
+            os.makedirs(TEMPDIR)
+
+        # hide cmd on Windows
+        startupinfo = None
+        if os.name == 'nt':
+            print('nt!')
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+
         p = subprocess.Popen(
             [
                 self.pdfimagesLocation,
                 "-j",
                 self.inputLocation,
-                os.path.join(os.path.abspath(path), ""),
-            ]
+                os.path.join(os.path.abspath(TEMPDIR), ""),
+            ],
+            startupinfo=startupinfo
         )
-        self.inputLocation = "./tempFolder/"
+        self.inputLocation = TEMPDIR
         while p.poll() == None:
             if p.poll() != None:
                 break
@@ -254,17 +263,20 @@ class Pecha(object):
             save_all=True,
             append_images=self.finalPages[1:],
         )
-        if os.path.isdir("./tempFolder/"):
-            shutil.rmtree("./tempFolder/")
+        if os.path.isdir(TEMPDIR):
+            shutil.rmtree(TEMPDIR)
 
 
-class Ui(QDialog):
+class Ui(QtWidgets.QDialog):
     def __init__(self):
         super(Ui, self).__init__()
-        loadUi("./window.ui", self)
+        uiFile = os.path.join(BASEDIR, "rsc", "window.ui")
+        loadUi(uiFile, self)
         self.pecha = Pecha()
         self.setWindowTitle("Pecha Printer")
-        self.setWindowIcon(QtGui.QIcon("print.ico"))
+        self.setWindowIcon(QtGui.QIcon(os.path.join(BASEDIR, "rsc", "print.ico")))
+        self.setWindowFlag(Qt.CustomizeWindowHint, True)
+        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
         self.stackedWidget.setCurrentIndex(0)
         self.stackedWidget_2.setCurrentIndex(0)
         self.pushButton.clicked.connect(self.button1)
@@ -273,9 +285,14 @@ class Ui(QDialog):
         self.pushButton_4.clicked.connect(self.button4)
         self.pushButton_5.clicked.connect(self.button3and5)
         self.pushButton_6.clicked.connect(self.restart)
+        self.pushButton_7.clicked.connect(self.close)
         self.comboBox.currentTextChanged.connect(self.combo)
         self.spinBox_end.setStyleSheet("color: grey")
+        self.label_7.setStyleSheet("color: grey")
+        self.label_15.setStyleSheet("color: grey")
         self.label_8.setStyleSheet("color: grey")
+        self.label_9.setStyleSheet("color: grey")
+        self.label_10.setStyleSheet("color: grey")
         self.spinBox_start.valueChanged.connect(self.changePageSpan)
         self.spinBox_end.valueChanged.connect(self.changePageSpan)
         self.checkBox.stateChanged.connect(self.activateSpan)
@@ -342,10 +359,10 @@ class Ui(QDialog):
 
     def button1(self):
         self.pushButton_2.setFocus()
-        options = QFileDialog.Options()
+        options = QtWidgets.QFileDialog.Options()
         dir = os.path.expanduser('~/Desktop/')
         filters = "པར་རིགས། (*.png *.jpg *.jpeg *.tif *.tiff *.gif *.pdf);; ཡོངས་རྫོགས། ()"
-        fileLocation, _ = QFileDialog.getOpenFileNames(
+        fileLocation, _ = QtWidgets.QFileDialog.getOpenFileNames(
             self,
             "པར་འདེམས།",
             dir,
@@ -464,7 +481,7 @@ class Ui(QDialog):
         self.stackedWidget_2.setCurrentIndex(0)
 
     def button4(self):
-        self.pecha.outputName = self.textEdit_2.toPlainText()
+        self.pecha.outputName = self.textEdit_2.text()
         if self.comboBox.currentIndex() == 0:
             self.pecha.outputSize = "A4"
         elif self.comboBox.currentIndex() == 1:
@@ -486,10 +503,14 @@ class Ui(QDialog):
         self.textEdit_2.setText(self.outFileName)
 
 def main():
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     window = Ui()
     window.show()
-    sys.exit(app.exec_())
+    try:
+        sys.exit(app.exec_())
+    except:
+        print("exiting")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
