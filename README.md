@@ -2,11 +2,14 @@
 Program to convert a pdf into a ready to print "Pecha", traditional tibetan volumes.
 
 ## Install
-### Version 01
+### Version 1.0
 
-* Download [Windows 64 installer](https://github.com/buda-base/pecha-printer/releases/download/v0.1/PechaPrinter_1.0.exe)
-
- 
+* Download [Windows 64 installer](https://github.com/Esukhia/dakje/releases/download/beta_01/Dakje_beta_01.exe)
+* Mac & Linux:
+    * install python 3.7
+    * Double-click or run install.py
+    * Double-click or run poti_maker.pyw
+  
 ## Roadmap
 ### To do:
 - [x] Windows installer
