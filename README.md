@@ -9,7 +9,9 @@ Program to convert a pdf into a ready to print "Pecha", traditional tibetan volu
  
 ## Roadmap
 ### To do:
-- [ ] redesign the UI
+- [x] Windows installer
+- [ ] Mac installer
+- [x] redesign the UI
 - [x] localization
 - [ ] custom paper size
 - [ ] option to binarise all images for unity
