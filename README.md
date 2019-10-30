@@ -2,7 +2,7 @@
 Program to convert a pdf into a ready to print "Pecha", traditional tibetan volumes.
 
 ## འཇུག་སྤྲོད། Install
-### ཐོན་རིམ། 1.1 Version 1.1
+### ཐོན་རིམ། v1.1
 
 * སྒེའུ་ཁུང་རྟགས་ཅན། Windows:
     - [མཉེན་ཆས་ཕབ་ལེན། Download](https://github.com/buda-base/pecha-printer/releases/download/v1.1/PechaPrinter_1.1.exe)
