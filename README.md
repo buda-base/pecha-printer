@@ -10,7 +10,7 @@ Program to convert a pdf into a ready to print "Pecha", traditional tibetan volu
     1. [ཕེ་ཐོན་མ་ལག་ཐོན་རིམ་ 3.7 ཕབ་ལེན་བྱས་ཏེ་འཇུག་སྤྲོད་བྱོས། Install Python 3.7](https://www.saintlad.com/install-python-3-on-mac/)
     2. [པར་གཞི་སྒྲིག་ཆས་ཀྱི་ཁུག་མ་ཕབ་ལེན་བྱོས། Download Pecha Printer](https://github.com/buda-base/pecha-printer/archive/master.zip)
     3. Open Terminal and run `python3 install.py`
-    4. Open Terminal and run `poti_maker.pyw`
+    4. Open Terminal and run `python3 pechaprinter.pyw`
   
 ## Development Roadmap
 ### To do:
