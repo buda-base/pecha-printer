@@ -1,5 +1,5 @@
 # པར་གཞི་སྒྲིག་ཆས། Pecha Printer
-Program to convert a pdf into a ready to print "Pecha", traditional tibetan volumes.
+Program to convert a pdf into a ready to print "Pecha", traditional Tibetan volumes.
 
 ## འཇུག་སྤྲོད། Install
 ### ཐོན་རིམ། v1.1

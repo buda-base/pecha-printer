@@ -8,10 +8,13 @@ from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 from PIL import Image
 from natsort import natsorted
+import pathlib
 import shutil
+import time
 
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
-TEMPDIR =  os.path.expanduser('~/Documents/~temp/')
+TEMPDIR =  pathlib.Path(pathlib.Path.home(), 'Documents', '~temp')
+TEMPDIRsep = f'{TEMPDIR}{os.sep}'
 
 class Pecha(object):
     def __init__(self):
@@ -37,6 +40,7 @@ class Pecha(object):
         self.optimalWidth = 0
         self.optimalHeight = 0
         self.optimalHeightTotal = 0
+        self.message = ''
         self.imgExt = (
             "tif",
             "tiff",
@@ -54,8 +58,9 @@ class Pecha(object):
             "pcd",
             "png",
             "pbm",
+            "ppm"
         )
-        self.pdfimagesLocation = "{base}/dep/{platform}/bin{bits}/pdfimages{ext}".format(
+        self.pdftoppmLocation = "{base}/dep/{platform}/bin{bits}/pdftoppm{ext}".format(
             base=BASEDIR,
             platform=("Mac" if platform.system() == "Darwin" else platform.system()),
             bits=8 * struct.calcsize("P"),
@@ -66,7 +71,6 @@ class Pecha(object):
         self.collectFiles()
         self.resizeImages()
         self.orderImages()
-        print("Done! ;)")
         self.savePdf()
         return 1
 
@@ -94,7 +98,6 @@ class Pecha(object):
         else:
             if self.jpgImages[0].size[0] == 3:
                 del self.jpgImages[0]
-        print(self.jpgImages[0].size[0])
 
 
         self.totalImages = len(self.jpgImages)
@@ -105,33 +108,37 @@ class Pecha(object):
             pass
     
     def extractImages(self):
-        if not os.path.exists(TEMPDIR):
-            os.makedirs(TEMPDIR)
-        else:
+        if os.path.exists(TEMPDIR):
             shutil.rmtree(TEMPDIR)
+        if not os.path.exists(TEMPDIR):
             os.makedirs(TEMPDIR)
 
         # hide cmd on Windows
         startupinfo = None
         if os.name == 'nt':
-            print('nt!')
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
+        print(f'{self.pdftoppmLocation} -r 300 {self.inputLocation} {TEMPDIRsep}')
+
+        # pdftoppm [options] PDF-file PPM-root
+        # -r number Specifies the X and Y resolution, in DPI.  The default is 150 DPI.
+        # https://www.mankier.com/1/pdftoppm#Options
         p = subprocess.Popen(
             [
-                self.pdfimagesLocation,
-                "-j",
+                self.pdftoppmLocation,
+                '-r',
+                '300',
                 self.inputLocation,
-                os.path.join(os.path.abspath(TEMPDIR), ""),
+                TEMPDIRsep,
             ],
             startupinfo=startupinfo
         )
-        self.inputLocation = TEMPDIR
+        self.inputLocation = TEMPDIRsep
         while p.poll() == None:
             if p.poll() != None:
                 break
-
+ 
         # list of images in the temp folder
         self.tempJpgs = [
             file
@@ -155,6 +162,8 @@ class Pecha(object):
             )
 
         for i in range(0, self.totalImages, 1):
+            self.message = f'Resizing image {i}'
+            print(self.message)
             currentImg = self.jpgImages[i]
             width, height = currentImg.size
             currentAspectRatio = width / height
@@ -194,6 +203,10 @@ class Pecha(object):
             self.resizedImages.append(newImage)
 
     def orderImages(self):
+        self.message = f'Ordering images'
+        print(self.message)
+
+
         if self.difference == 0:
             for i in range(0, self.totalPages, 1):
                 self.imageStacks[0].append(self.resizedImages[i])
@@ -235,6 +248,8 @@ class Pecha(object):
                 del self.imageStacks[2][0]
 
         for i in range(0, len(self.imageStacks[0]), 1):
+            self.message = f'Stacking image {i}'
+            print(self.message)
             finalPage = Image.new(
                 "RGB", (self.optimalWidth, self.optimalHeightTotal), "white"
             )
@@ -257,14 +272,16 @@ class Pecha(object):
             self.finalPages.append(finalPage)
 
     def savePdf(self):
+        self.message = 'Saving images'
+        print(self.message)
+
+
         self.outputName = self.outputName + ".pdf"
         self.finalPages[0].save(
             self.outputLocation + self.outputName,
             save_all=True,
             append_images=self.finalPages[1:],
         )
-        if os.path.isdir(TEMPDIR):
-            shutil.rmtree(TEMPDIR)
 
 
 class Ui(QtWidgets.QDialog):
@@ -289,7 +306,6 @@ class Ui(QtWidgets.QDialog):
         self.comboBox.currentTextChanged.connect(self.combo)
         self.spinBox_end.setStyleSheet("color: grey")
         self.label_7.setStyleSheet("color: grey")
-        self.label_15.setStyleSheet("color: grey")
         self.label_8.setStyleSheet("color: grey")
         self.label_9.setStyleSheet("color: grey")
         self.label_10.setStyleSheet("color: grey")
@@ -313,6 +329,7 @@ class Ui(QtWidgets.QDialog):
         self.pecha.tempJpgs = []
         self.setDefaults()
         self.button3and5()
+        self.pushButton.click()
 
     # define if the starting side is recto or verso
     def startingSide(self):
@@ -320,7 +337,6 @@ class Ui(QtWidgets.QDialog):
             self.pecha.startSide = 'B'
         else:
             self.pecha.startSide = 'A'
-        print(f'starting side is {self.pecha.startSide}')
 
 
     def activateSpan(self):
@@ -329,7 +345,6 @@ class Ui(QtWidgets.QDialog):
         self.spinBox_end.setStyleSheet("")
         self.startPage = self.spinBox_start.value()
         self.endPage = self.spinBox_end.value()
-        print(f'enabled: {self.pagePicker.isEnabled()} {self.startPage, self.endPage}')
         self.changePageSpan()
 
     def changePageSpan(self):
@@ -369,10 +384,14 @@ class Ui(QtWidgets.QDialog):
             filters,
             options=options,
         )
+        self.stackedWidget_2.setCurrentIndex(1)
+        self.label_17.setText(self.pecha.message)
+        QtGui.QGuiApplication.processEvents()
 
-        if fileLocation:
+        if not fileLocation:
+            self.stackedWidget_2.setCurrentIndex(0)
+        elif fileLocation:
             self.parentDir = os.path.basename(os.path.dirname(fileLocation[0]))
-            print(fileLocation)
             # self.label_8.setStyleSheet("font: italic; color: grey")
             self.label_8.setStyleSheet("color: blue")
 
@@ -401,7 +420,6 @@ class Ui(QtWidgets.QDialog):
                         self.label_8.setText(
                             "PDF གཅིག་རང་དང་ཡང་ན། པར་ཁོ་ན་ཡིན་དགོས།"
                         )
-                        print('Hi')
                         self.pushButton_2.setEnabled(False)
 
                     elif len(fileLocation) == 2:
@@ -428,7 +446,6 @@ class Ui(QtWidgets.QDialog):
             elif len(fileLocation) == 1:
                 self.span = []
                 self.fileLocationPartition = fileLocation[0].rpartition("/")
-                print(self.fileLocationPartition[2].rpartition(".")[2])
                 # self.label_8.setText("ཡིག་ཆ། " + self.fileLocationPartition[2])
                 self.outFilePrefix = self.fileLocationPartition[2].rpartition(".")[0]
                 self.outFileName = self.outFilePrefix + f"_{self.pecha.outputSize}"
@@ -452,7 +469,9 @@ class Ui(QtWidgets.QDialog):
                     self.pushButton_2.setEnabled(False)
 
             self.pecha.outputLocation = self.fileLocationPartition[0] + "/"
-            self.stackedWidget_2.setCurrentIndex(1)
+
+            self.stackedWidget.setCurrentIndex(0)
+            self.stackedWidget_2.setCurrentIndex(2)
 
     def setPageSpan(self):
         self.startPage = self.spinBox_start.value()
@@ -460,15 +479,12 @@ class Ui(QtWidgets.QDialog):
         start = self.startPage-1
         end = self.endPage
 
-        print(self.pecha.tempJpgs)
-
         if self.pagePicker.isEnabled(): 
             if self.endPage == 0:
                 del self.pecha.tempJpgs[:start]
             elif self.endPage != 0:
                 del self.pecha.tempJpgs[end:]
                 del self.pecha.tempJpgs[:start]
-        print(self.pecha.tempJpgs)
         pass
 
     def button2(self):
@@ -481,13 +497,17 @@ class Ui(QtWidgets.QDialog):
         self.stackedWidget_2.setCurrentIndex(0)
 
     def button4(self):
+        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget_3.setCurrentIndex(0)
+        self.label.setText(self.pecha.message)
+        QtGui.QGuiApplication.processEvents()
+
         self.pecha.outputName = self.textEdit_2.text()
         if self.comboBox.currentIndex() == 0:
             self.pecha.outputSize = "A4"
         elif self.comboBox.currentIndex() == 1:
             self.pecha.outputSize = "A3"
-        self.stackedWidget.setCurrentIndex(2)
-        self.stackedWidget_3.setCurrentIndex(0)
+
         process = self.pecha.Main()
         if process == 1:
             self.stackedWidget_3.setCurrentIndex(1)
@@ -509,7 +529,6 @@ def main():
     try:
         sys.exit(app.exec_())
     except:
-        print("exiting")
         sys.exit(1)
 
 if __name__ == "__main__":

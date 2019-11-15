@@ -56,7 +56,7 @@
     <string notr="true"/>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QStackedWidget" name="stackedWidget_2">
@@ -128,39 +128,7 @@
            </font>
           </property>
           <property name="text">
-           <string>པར་གཞི་ལ་བསྒྱུར་དགོས་པའི་ཡིག་ཆ་འདེམས།</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_14">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>10</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_15">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="font">
-           <font>
-            <family>Microsoft Himalaya</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>པར་དང་ PDF གང་རུང་ཡིན་དགོས།</string>
+           <string>བསྒྲིག་བྱའི་ཡིག་ཆ་པར་དང་ PDF གང་རུང་འདེམ།</string>
           </property>
          </widget>
         </item>
@@ -221,11 +189,131 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>པར་འདེམས།</string>
+             <string>འདེམ།</string>
             </property>
            </widget>
           </item>
          </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_3b">
+      <widget class="QWidget" name="verticalLayoutWidget_7">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>40</y>
+         <width>601</width>
+         <height>311</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <spacer name="verticalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <spacer name="horizontalSpacer_18">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_15">
+            <property name="font">
+             <font>
+              <family>Microsoft Himalaya</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>པར་ལེན་མུས་ཡིན།</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_20">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_16">
+          <item>
+           <spacer name="horizontalSpacer_24">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_25">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -300,7 +388,7 @@
              </font>
             </property>
             <property name="text">
-             <string>པར་དང་པོ་ནི་</string>
+             <string>ཤོག་ངོས་དང་པོ་ནི་</string>
             </property>
            </widget>
           </item>
@@ -550,7 +638,7 @@
              </font>
             </property>
             <property name="text">
-             <string>དོར།</string>
+             <string>ཕྱིར་འཐེན།</string>
             </property>
            </widget>
           </item>
@@ -799,7 +887,7 @@
            </font>
           </property>
           <property name="text">
-           <string>དོར།</string>
+           <string>ཕྱིར་འཐེན།</string>
           </property>
          </widget>
         </item>
@@ -826,7 +914,7 @@
            </font>
           </property>
           <property name="text">
-           <string>པར་གཞི་བསྒྲིག</string>
+           <string>པར་གཞི་སྒྲིག</string>
           </property>
          </widget>
         </item>
@@ -846,7 +934,7 @@
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_6">
       <widget class="QWidget" name="verticalLayoutWidget_5">
@@ -896,12 +984,49 @@
              </font>
             </property>
             <property name="text">
-             <string>སྒྲིག་མུས་ཡིན།</string>
+             <string>པར་གཞི་སྒྲིག་མུས་ཡིན།</string>
             </property>
            </widget>
           </item>
           <item>
            <spacer name="horizontalSpacer_16">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <spacer name="horizontalSpacer_22">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_23">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -955,7 +1080,7 @@
              </font>
             </property>
             <property name="text">
-             <string>པར་གཞི་གསར་པ་ནི་ཁུངས་ཀྱི་པར་སྣོད་ནང་ཡོད།</string>
+             <string>བསྒྲིགས་ཟིན་པའི་པར་གཞི་དེ་བསྒྲིག་བྱའི་ཡིག་ཆ་མཉམ་དུ་བཞག་ཡོད།</string>
             </property>
            </widget>
           </item>
@@ -999,7 +1124,7 @@
            </font>
           </property>
           <property name="text">
-           <string>A4 ཤོག་བུ་ནི་ 7cm བརྒྱ་ཆའི་སྨི་བདུན་རེའི་དུམ་བུ་གསུམ་དུ་གཏུབ་དགོས།</string>
+           <string>ཤོག་བུའི་ཚད་གཞི་ A4 ཡིན་ན་ 7cm ཡོད་པའི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1031,7 +1156,7 @@
            </font>
           </property>
           <property name="text">
-           <string>A3 ཤོག་བུ་ནི་ 9.9cm བརྒྱ་ཆའི་སྨི་དགུ་ཚེག་དགུའི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།</string>
+           <string>ཤོག་བུའི་ཚད་གཞི་ A3 ཡིན་ན་ 9.9cm ཡོད་པའི་དུམ་བུ་གསུམ་ལ་གཏུབ་དགོས།</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1112,7 +1237,7 @@
              </font>
             </property>
             <property name="text">
-             <string>པར་གཞི་གསར་པ་བསྒྲིག</string>
+             <string>པར་གཞི་གསར་པ་སྒྲིག</string>
             </property>
            </widget>
           </item>

@@ -1,10 +1,10 @@
 !define PRODUCT_NAME "PechaPrinter"
-!define PRODUCT_VERSION "1.0"
+!define PRODUCT_VERSION "1.2"
 !define PY_VERSION "3.7.0"
 !define PY_MAJOR_VERSION "3.7"
 !define BITNESS "64"
 !define ARCH_TAG ".amd64"
-!define INSTALLER_NAME "PechaPrinter_1.0.exe"
+!define INSTALLER_NAME "PechaPrinter_1.2.exe"
 !define PRODUCT_ICON "print.ico"
 
 ; Marker file to tell the uninstaller that it's a user installation
