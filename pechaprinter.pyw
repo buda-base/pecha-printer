@@ -206,7 +206,6 @@ class Pecha(object):
         self.message = f'Ordering images'
         print(self.message)
 
-
         if self.difference == 0:
             for i in range(0, self.totalPages, 1):
                 self.imageStacks[0].append(self.resizedImages[i])
@@ -272,9 +271,11 @@ class Pecha(object):
             self.finalPages.append(finalPage)
 
     def savePdf(self):
+        # FIXME save each finalPage as separate pdfs with https://docs.python.org/3/library/tempfile.html#tempfile.TemporaryDirectory
+        #  then combine them with poppler's pdfunite binary
+
         self.message = 'Saving images'
         print(self.message)
-
 
         self.outputName = self.outputName + ".pdf"
         self.finalPages[0].save(
