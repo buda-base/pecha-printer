@@ -7,6 +7,7 @@ from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 from PIL import Image
+from PyPDF4 import PdfFileMerger
 from natsort import natsorted
 import pathlib
 import shutil
@@ -14,7 +15,9 @@ import time
 
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 TEMPDIR =  pathlib.Path(pathlib.Path.home(), 'Documents', '~temp')
-TEMPDIRsep = f'{TEMPDIR}{os.sep}'
+TEMPDIRroot = f'{TEMPDIR}{os.sep}'
+TEMPDIRimgs = f'{TEMPDIRroot}imgs{os.sep}'
+TEMPDIRstacks = f'{TEMPDIRroot}stacks{os.sep}'
 
 class Pecha(object):
     def __init__(self):
@@ -68,9 +71,9 @@ class Pecha(object):
         )
 
     def Main(self):
-        self.collectFiles()
-        self.resizeImages()
-        self.orderImages()
+        self.collectFiles()     # collect path
+        self.resizeImages()     # resize local
+        self.orderImages()      # rename
         self.savePdf()
         return 1
 
@@ -109,9 +112,11 @@ class Pecha(object):
     
     def extractImages(self):
         if os.path.exists(TEMPDIR):
-            shutil.rmtree(TEMPDIR)
+            shutil.rmtree(TEMPDIR, ignore_errors=True)
         if not os.path.exists(TEMPDIR):
             os.makedirs(TEMPDIR)
+            os.makedirs(TEMPDIRimgs)
+            os.makedirs(TEMPDIRstacks)
 
         # hide cmd on Windows
         startupinfo = None
@@ -119,7 +124,7 @@ class Pecha(object):
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
 
-        print(f'{self.pdftoppmLocation} -r 300 {self.inputLocation} {TEMPDIRsep}')
+        print(f'{self.pdftoppmLocation} -r 300 {self.inputLocation} {TEMPDIRimgs}')
 
         # pdftoppm [options] PDF-file PPM-root
         # -r number Specifies the X and Y resolution, in DPI.  The default is 150 DPI.
@@ -130,11 +135,11 @@ class Pecha(object):
                 '-r',
                 '300',
                 self.inputLocation,
-                TEMPDIRsep,
+                TEMPDIRimgs,
             ],
             startupinfo=startupinfo
         )
-        self.inputLocation = TEMPDIRsep
+        self.inputLocation = TEMPDIRimgs
         while p.poll() == None:
             if p.poll() != None:
                 break
@@ -245,7 +250,7 @@ class Pecha(object):
                 del self.imageStacks[2][0]
             if len(self.imageStacks[2]) - 1 >= 0:
                 del self.imageStacks[2][0]
-
+        
         for i in range(0, len(self.imageStacks[0]), 1):
             self.message = f'Stacking image {i}'
             print(self.message)
@@ -268,22 +273,30 @@ class Pecha(object):
                     finalPage.paste(self.imageStacks[2][i], (0, 0))
                     pass
                 pass
-            self.finalPages.append(finalPage)
+            finalPage.save(f'{TEMPDIRstacks}{i:04}.pdf')
 
     def savePdf(self):
-        # FIXME save each finalPage as separate pdfs with https://docs.python.org/3/library/tempfile.html#tempfile.TemporaryDirectory
-        #  then combine them with poppler's pdfunite binary
-
         self.message = 'Saving images'
         print(self.message)
 
-        self.outputName = self.outputName + ".pdf"
-        self.finalPages[0].save(
-            self.outputLocation + self.outputName,
-            save_all=True,
-            append_images=self.finalPages[1:],
-        )
+        self.outputPath = f'{self.outputLocation}{self.outputName}.pdf'
+        # delete previous to replace
+        if os.path.exists(self.outputPath):
+            os.remove(self.outputPath)
+        pdfs = []
+        for file in os.listdir(TEMPDIRstacks):
+            if file.endswith(".pdf"):
+                pdfs.append(f'{TEMPDIRstacks}{file}')
 
+        merger = PdfFileMerger()
+
+        for pdf in pdfs:
+            print(pdf)
+            merger.append(pdf)
+
+        # save pdf
+        merger.write(self.outputPath)
+        merger.close()
 
 class Ui(QtWidgets.QDialog):
     def __init__(self):
@@ -455,7 +468,10 @@ class Ui(QtWidgets.QDialog):
                     self.pecha.inputFormat = "pdf"
                     self.pecha.inputLocation = fileLocation[0]
                     # extract images from PDF to temp folder and create list
+                    # FIXME this should be done in a separate thread to avoid (not responding)
+                    # https://www.learnpyqt.com/courses/concurrent-execution/multithreading-pyqt-applications-qthreadpool/
                     self.pecha.extractImages()
+                    
                     if self.pecha.tempJpgsNumber < 2:              
                         self.label_8.setStyleSheet('color: red')
                         self.label_8.setText("ཉུང་མཐར་པར་གཉིས་དགོས།")
@@ -529,6 +545,7 @@ def main():
     try:
         sys.exit(app.exec_())
     except:
+        shutil.rmtree(TEMPDIR, ignore_errors=True)
         sys.exit(1)
 
 if __name__ == "__main__":
