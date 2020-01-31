@@ -4,9 +4,8 @@ Program to convert a pdf into a ready to print "Pecha", traditional Tibetan volu
 ## འཇུག་སྤྲོད། Install
 ### ཐོན་རིམ། v 1.3
 
-* སྒེའུ་ཁུང་རྟགས་ཅན། Windows:
-    - [མཉེན་ཆས་ཕབ་ལེན། Download](https://github.com/buda-base/pecha-printer/releases/download/v1.3/PechaPrinter_1.3.exe)
-    
+* [སྒེའུ་ཁུང་རྟགས་ཅན། Windows](https://github.com/buda-base/pecha-printer/releases/download/v1.3/PechaPrinter_1.3.exe)
+
 
 * ཀུ་ཤུ་རྟགས་ཅན་ཆེད། Mac & Linux:
     1. [ཕེ་ཐོན་མ་ལག་ཐོན་རིམ་ 3.7 ཕབ་ལེན་བྱས་ཏེ་འཇུག་སྤྲོད་བྱོས། Install Python 3.7](https://www.saintlad.com/install-python-3-on-mac/)
