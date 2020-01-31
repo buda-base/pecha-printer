@@ -181,6 +181,33 @@ def do_dependency_checks():
 
     # not checking natsort version
 
+
+    ##########################################################
+    # PyPDF4
+    ##########################################################
+    try:
+        import PyPDF4
+    except ImportError as msg:
+        installed = pip_install(
+            "PyPDF4", "PyPDF4 could not be detected.\nError: {0}".format(msg)
+        )
+
+        if installed:
+            # try to import it again
+            try:
+                import PyPDF4
+            except ImportError as msg:
+                print("Sorry, please install PyPDF4.")
+                print("Error: {0}".format(msg))
+                exit(1)
+        else:
+            print("Sorry, please install PyPDF4.")
+            print("Error: {0}".format(msg))
+            exit(1)
+    print("Found PyPDF4")
+
+    # not checking natsort version
+
     print()
     print("All set!")
 
