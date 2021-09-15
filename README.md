@@ -15,7 +15,7 @@ Program to convert a pdf into a ready to print "Pecha", traditional Tibetan volu
 ## Logic for a pecha with 15 images
 
 ![pecha-printer logic (2)](https://user-images.githubusercontent.com/17675331/133428067-3aaac826-5648-4d14-aecf-aad475032795.png)
-![pecha-printer logic (1)](https://user-images.githubusercontent.com/17675331/133427659-0ea55db2-2489-4227-8590-e442de8832a4.png)
+![pecha-printer logic (3)](https://user-images.githubusercontent.com/17675331/133429522-45f9e5a9-c9f0-4d42-83f3-b47f0a749275.png)
 
 ## Development Roadmap
 ### To do:
