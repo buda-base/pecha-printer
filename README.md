@@ -12,9 +12,9 @@ Program to convert a pdf into a ready to print "Pecha", traditional Tibetan volu
     3. Open Terminal and run `python3 install.py`
     4. Open Terminal and run `python3 pechaprinter.pyw`
 
-## Logic:
+## Logic for a pecha with 15 images
 
-![pecha-printer logic](https://user-images.githubusercontent.com/17675331/133427684-21d7a000-431f-4cf2-8147-7ea49bb4859e.png)
+![pecha-printer logic (2)](https://user-images.githubusercontent.com/17675331/133428067-3aaac826-5648-4d14-aecf-aad475032795.png)
 ![pecha-printer logic (1)](https://user-images.githubusercontent.com/17675331/133427659-0ea55db2-2489-4227-8590-e442de8832a4.png)
 
 ## Development Roadmap
