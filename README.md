@@ -13,7 +13,11 @@ Program to convert a pdf into a ready to print "Pecha", traditional Tibetan volu
     4. Open Terminal and run `python3 pechaprinter.pyw`
 
 ## Logic for a pecha with 15 images
-![](https://user-images.githubusercontent.com/17675331/133663812-0ea3b644-a106-4c4c-b5d7-2ffaa57a6a7f.png)
+- printing one pecha page per paper sheet is wasteful
+- grouping images 3 by 3 in photoshop is difficult and time consuming
+![pecha-printer logic (6)](https://user-images.githubusercontent.com/17675331/133664359-c56566b7-1ff1-4582-9f4a-0a399025c9b0.png)
+- order A adds a lot of reordering work after cutting the printed pecha
+- order B only requires to combine the 3 piles to get a pecha ready for reading!
 ![pecha-printer logic (2)](https://user-images.githubusercontent.com/17675331/133428067-3aaac826-5648-4d14-aecf-aad475032795.png)
 ![](https://user-images.githubusercontent.com/17675331/133585088-abee06b0-aa65-4e5d-9073-14fb037d9690.png)
 
