@@ -19,7 +19,8 @@ Program to convert a pdf into a ready to print "Pecha", traditional Tibetan volu
 - order A adds a lot of reordering work after cutting the printed pecha
 - order B only requires to combine the 3 piles to get a pecha ready for reading!
 ![pecha-printer logic (2)](https://user-images.githubusercontent.com/17675331/133428067-3aaac826-5648-4d14-aecf-aad475032795.png)
-![](https://user-images.githubusercontent.com/17675331/133585088-abee06b0-aa65-4e5d-9073-14fb037d9690.png)
+![pecha-printer logic (8)](https://user-images.githubusercontent.com/17675331/133666138-a3241dd2-e3d3-4e0e-b586-d8de1f9ae7e8.png)
+
 
 ## Development Roadmap
 ### To do:
