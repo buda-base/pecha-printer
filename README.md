@@ -13,7 +13,7 @@ Program to convert a pdf into a ready to print "Pecha", traditional Tibetan volu
     4. Open Terminal and run `python3 pechaprinter.pyw`
 
 ## Why use pecha-printer?
-- printing one pecha page per paper sheet is wasteful
+- printing one pecha page per paper sheet wastes a lot of paper
 - grouping images 3 by 3 in photoshop is difficult and time consuming
 ![pecha-printer logic (15)](https://user-images.githubusercontent.com/17675331/133715523-f748843a-ec64-43dd-aa32-32c708719d9f.png)
 - A requires a lot of reordering of pecha pages,
