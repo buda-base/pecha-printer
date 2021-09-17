@@ -15,11 +15,11 @@ Program to convert a pdf into a ready to print "Pecha", traditional Tibetan volu
 ## Logic for a pecha with 15 images
 - printing one pecha page per paper sheet is wasteful
 - grouping images 3 by 3 in photoshop is difficult and time consuming
-![pecha-printer logic (10)](https://user-images.githubusercontent.com/17675331/133667058-46c57a1e-1c53-4b4b-9a2f-49d9a4d2d0c7.png)
+![pecha-printer logic (11)](https://user-images.githubusercontent.com/17675331/133715209-17e4aa39-ece0-485f-a749-a60a1cf43f5e.png)
 - A requires a lot of reordering of pecha pages,
 - B only requires to combine the 3 piles in order to get a pecha ready for reading!
-![pecha-printer logic (2)](https://user-images.githubusercontent.com/17675331/133428067-3aaac826-5648-4d14-aecf-aad475032795.png)
-![pecha-printer logic (8)](https://user-images.githubusercontent.com/17675331/133666138-a3241dd2-e3d3-4e0e-b586-d8de1f9ae7e8.png)
+![pecha-printer logic (12)](https://user-images.githubusercontent.com/17675331/133715222-d1248ecc-80b2-4129-8051-cc67e5a3afae.png)
+![pecha-printer logic (13)](https://user-images.githubusercontent.com/17675331/133715228-44eb665a-eab5-42fb-bc34-bc26bc97eec7.png)
 
 
 ## Development Roadmap
