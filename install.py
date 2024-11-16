@@ -181,32 +181,57 @@ def do_dependency_checks():
 
     # not checking natsort version
 
-
     ##########################################################
-    # PyPDF4
+    # setuptools (dependency of natsort)
     ##########################################################
     try:
-        import PyPDF4
+        import setuptools
     except ImportError as msg:
         installed = pip_install(
-            "PyPDF4", "PyPDF4 could not be detected.\nError: {0}".format(msg)
+            "setuptools", "setuptools could not be detected.\nError: {0}".format(msg)
         )
 
         if installed:
             # try to import it again
             try:
-                import PyPDF4
+                import setuptools
             except ImportError as msg:
-                print("Sorry, please install PyPDF4.")
+                print("Sorry, please install setuptools.")
                 print("Error: {0}".format(msg))
                 exit(1)
         else:
-            print("Sorry, please install PyPDF4.")
+            print("Sorry, please install setuptools.")
             print("Error: {0}".format(msg))
             exit(1)
-    print("Found PyPDF4")
+    print("Found setuptools")
 
     # not checking natsort version
+
+    ##########################################################
+    # PyPDF4
+    ##########################################################
+    try:
+        import pypdf
+    except ImportError as msg:
+        installed = pip_install(
+            "pypdf", "pypdf could not be detected.\nError: {0}".format(msg)
+        )
+
+        if installed:
+            # try to import it again
+            try:
+                import pypdf
+            except ImportError as msg:
+                print("Sorry, please install pypdf.")
+                print("Error: {0}".format(msg))
+                exit(1)
+        else:
+            print("Sorry, please install pypdf.")
+            print("Error: {0}".format(msg))
+            exit(1)
+    print("Found pypdf")
+
+    # not checking pypdf version
 
     print()
     print("All set!")

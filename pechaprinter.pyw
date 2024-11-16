@@ -6,18 +6,21 @@ import subprocess
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
-from PIL import Image
-from PyPDF4 import PdfFileMerger
+from PIL import Image, ImageDraw
+from pypdf import PdfWriter
 from natsort import natsorted
 import pathlib
 import shutil
-import time
 
 BASEDIR = os.path.dirname(os.path.abspath(__file__))
 TEMPDIR =  pathlib.Path(pathlib.Path.home(), 'Documents', '~temp')
 TEMPDIRroot = f'{TEMPDIR}{os.sep}'
 TEMPDIRimgs = f'{TEMPDIRroot}imgs{os.sep}'
 TEMPDIRstacks = f'{TEMPDIRroot}stacks{os.sep}'
+debug = False
+printer_adjustment_odd_pages = True
+adjustment = 1  # in cm
+adjustment = adjustment * 118  # for a resolution of 300 dpi
 
 class Pecha(object):
     def __init__(self):
@@ -133,7 +136,7 @@ class Pecha(object):
             [
                 self.pdftoppmLocation,
                 '-r',
-                '300',
+                '600',
                 self.inputLocation,
                 TEMPDIRimgs,
             ],
@@ -273,29 +276,50 @@ class Pecha(object):
                     finalPage.paste(self.imageStacks[2][i], (0, 0))
                     pass
                 pass
+            if debug:
+                line_width = 2
+                draw = ImageDraw.Draw(finalPage)
+                w, h = finalPage.size
+                lines = [
+                    ((line_width, 0), (w, line_width)),
+                    ((0, h/3), (w, h/3)),
+                    ((0, (h/3)*2), (w, (h/3)*2)),
+                    ((0, h-line_width), (w, h-line_width))
+                ]
+                for l in lines:
+                    draw.line(l, fill='lightgray', width=line_width)
+
+            if printer_adjustment_odd_pages:
+                if i % 2 != 0:
+                    adjusted = Image.new(
+                        "RGB", (self.optimalWidth, self.optimalHeightTotal), "white"
+                    )
+                    adjusted.paste(finalPage, (0, adjustment))
+                    finalPage = adjusted
             finalPage.save(f'{TEMPDIRstacks}{i:04}.pdf')
 
     def savePdf(self):
-        self.message = 'Saving images'
-        print(self.message)
+        message = 'Saving images'
+        print(message)
 
-        self.outputPath = f'{self.outputLocation}{self.outputName}.pdf'
+        outputPath = f'{self.outputLocation}{self.outputName}.pdf'
+
         # delete previous to replace
-        if os.path.exists(self.outputPath):
-            os.remove(self.outputPath)
+        if os.path.exists(outputPath):
+            os.remove(outputPath)
+
         pdfs = []
         for file in os.listdir(TEMPDIRstacks):
             if file.endswith(".pdf"):
                 pdfs.append(f'{TEMPDIRstacks}{file}')
 
-        merger = PdfFileMerger()
-
-        for pdf in pdfs:
+        merger = PdfWriter()
+        for pdf in sorted(pdfs):
             print(pdf)
             merger.append(pdf)
 
         # save pdf
-        merger.write(self.outputPath)
+        merger.write(outputPath)
         merger.close()
 
 class Ui(QtWidgets.QDialog):
